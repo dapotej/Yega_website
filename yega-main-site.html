@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YEGA Systems | Revenue Infrastructure for High-Ticket Businesses</title>
+    <meta name="description" content="We build the systems that turn your sales funnel into a predictable revenue machine. Revenue infrastructure for high-ticket coaches, consultants, and course creators.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --yega-cyan: #00D9D9;
+            --yega-dark: #0A0A0A;
+            --yega-gray: #1A1A1A;
+            --yega-light-gray: #2A2A2A;
+            --yega-text: #E5E5E5;
+            --yega-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--yega-dark);
+            color: var(--yega-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--yega-light-gray);
+            position: sticky;
+            top: 0;
+            background: var(--yega-dark);
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--yega-text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--yega-cyan);
+        }
+
+        .cta-nav {
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-nav:hover {
+            background: #00F0F0;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            color: var(--yega-cyan);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--yega-white);
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--yega-cyan) 0%, #00B8B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            line-height: 1.5;
+            color: var(--yega-text);
+            max-width: 800px;
+            margin: 0 auto 48px;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-primary:hover {
+            background: #00F0F0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 217, 217, 0.3);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 80px 0;
+            background: var(--yega-gray);
+            border-top: 1px solid var(--yega-light-gray);
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--yega-cyan);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--yega-white);
+            letter-spacing: -0.01em;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--yega-dark);
+            padding: 48px;
+            border-radius: 16px;
+            border: 1px solid var(--yega-light-gray);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: var(--yega-cyan);
+            transform: translateY(-8px);
+        }
+
+        .product-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--yega-cyan) 0%, #00B8B8 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .product-card h3 {
+            font-size: 28px;
+            color: var(--yega-white);
+            margin-bottom: 16px;
+        }
+
+        .product-card p {
+            color: var(--yega-text);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .product-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: var(--yega-light-gray);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--yega-text);
+            font-weight: 500;
+        }
+
+        .product-cta {
+            display: inline-block;
+            background: transparent;
+            color: var(--yega-cyan);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--yega-cyan);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .product-cta:hover {
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+        }
+
+        /* Who We Serve */
+        .who-we-serve {
+            padding: 80px 0;
+            background: var(--yega-dark);
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .audience-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: var(--yega-gray);
+            border-radius: 12px;
+            border: 1px solid var(--yega-light-gray);
+        }
+
+        .audience-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .audience-card h3 {
+            font-size: 20px;
+            color: var(--yega-white);
+            margin-bottom: 12px;
+        }
+
+        .audience-card p {
+            color: var(--yega-text);
+            font-size: 15px;
+        }
+
+        /* How We're Different */
+        .different {
+            padding: 80px 0;
+            background: var(--yega-gray);
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .different-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .different-statement {
+            font-size: 32px;
+            line-height: 1.5;
+            color: var(--yega-white);
+            margin-bottom: 32px;
+        }
+
+        .different-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .different-item {
+            text-align: left;
+        }
+
+        .different-item h4 {
+            color: var(--yega-cyan);
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .different-item p {
+            color: var(--yega-text);
+            line-height: 1.6;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, var(--yega-cyan) 0%, #00B8B8 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            color: var(--yega-dark);
+            margin-bottom: 24px;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            color: var(--yega-dark);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            background: var(--yega-dark);
+            color: var(--yega-white);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: var(--yega-gray);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            background: var(--yega-dark);
+            border-top: 1px solid var(--yega-light-gray);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand h3 {
+            color: var(--yega-white);
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            color: var(--yega-text);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .footer-section h4 {
+            color: var(--yega-white);
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: var(--yega-text);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--yega-cyan);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--yega-light-gray);
+            color: var(--yega-text);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 42px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+
+            .different-statement {
+                font-size: 24px;
+            }
+
+            nav {
+                display: none; /* Simple mobile - can add hamburger menu later */
+            }
+
+            .audience-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .different-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="/mnt/user-data/uploads/Yega_Logo.png" alt="YEGA Systems" class="logo">
+                <nav>
+                    <a href="#products">Products</a>
+                    <a href="#who">Who We Serve</a>
+                    <a href="#contact" class="cta-nav">Get Started</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">YEGA SYSTEMS</div>
+            <h1>Revenue Infrastructure<br>for <span class="gradient-text">High-Ticket Businesses</span></h1>
+            <p class="hero-subtitle">We build the systems that turn your sales funnel into a predictable revenue machine. No more random spikes. No more guessing next month's numbers.</p>
+            <a href="#products" class="cta-primary">Explore Our Products</a>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">What We Build</div>
+                <h2>Two Products.<br>One Mission: Predictable Revenue.</h2>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1: The Sprint -->
+                <div class="product-card">
+                    <div class="product-icon">⚡</div>
+                    <h3>The Paid Funnel Predictability Sprint™</h3>
+                    <p>In 30 days, we identify and fix the revenue leaks inside your Meta sales funnel so your paid traffic produces predictable enrolments—not random spikes.</p>
+                    
+                    <div class="product-meta">
+                        <span class="meta-tag">30 Days</span>
+                        <span class="meta-tag">£6,000</span>
+                        <span class="meta-tag">£5K+/mo Ad Spend</span>
+                    </div>
+
+                    <p style="color: var(--yega-white); font-weight: 600; margin-bottom: 24px;">
+                        Fix the leaks. Stop the wastage. Get clarity.
+                    </p>
+
+                    <a href="/sprint" class="product-cta">Learn More →</a>
+                </div>
+
+                <!-- Product 2: Cosa -->
+                <div class="product-card">
+                    <div class="product-icon">🤖</div>
+                    <h3>Cosa</h3>
+                    <p>AI sales agents that handle your inbound conversations. Never miss a lead. Always respond instantly. Qualify prospects while you sleep.</p>
+                    
+                    <div class="product-meta">
+                        <span class="meta-tag">AI-Powered</span>
+                        <span class="meta-tag">24/7 Response</span>
+                        <span class="meta-tag">Lead Qualification</span>
+                    </div>
+
+                    <p style="color: var(--yega-white); font-weight: 600; margin-bottom: 24px;">
+                        Turn conversations into conversions automatically.
+                    </p>
+
+                    <a href="https://usecosa.com" target="_blank" class="product-cta">Explore Cosa →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Serve -->
+    <section class="who-we-serve" id="who">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">Who We Serve</div>
+                <h2>Built for High-Ticket<br>Knowledge Businesses</h2>
+            </div>
+
+            <div class="audience-grid">
+                <div class="audience-card">
+                    <div class="audience-icon">🎓</div>
+                    <h3>Coaches</h3>
+                    <p>Selling £3K–£15K programs that require sales conversations to close</p>
+                </div>
+
+                <div class="audience-card">
+                    <div class="audience-icon">💼</div>
+                    <h3>Consultants</h3>
+                    <p>High-ticket advisory services with complex sales cycles</p>
+                </div>
+
+                <div class="audience-card">
+                    <div class="audience-icon">📚</div>
+                    <h3>Course Creators</h3>
+                    <p>Premium education programs at £5K+ price points</p>
+                </div>
+
+                <div class="audience-card">
+                    <div class="audience-icon">📊</div>
+                    <h3>Service Providers</h3>
+                    <p>Professional services running paid traffic to book calls</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How We're Different -->
+    <section class="different">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">How We're Different</div>
+                <h2>We Don't Build Funnels.<br>We Fix Them.</h2>
+            </div>
+
+            <div class="different-content">
+                <p class="different-statement">
+                    Most agencies optimize for CPL and ROAS.<br>
+                    <strong style="color: var(--yega-cyan);">We optimize for enrolments and revenue per lead.</strong>
+                </p>
+
+                <div class="different-grid">
+                    <div class="different-item">
+                        <h4>Not Traffic</h4>
+                        <p>We don't increase traffic. We increase the revenue you extract from the traffic you already have.</p>
+                    </div>
+
+                    <div class="different-item">
+                        <h4>Not Implementation</h4>
+                        <p>We don't build funnels from scratch. We fix the leaks in existing funnels that are already getting traffic.</p>
+                    </div>
+
+                    <div class="different-item">
+                        <h4>Not Ongoing Management</h4>
+                        <p>We build systems that give you clarity and control. You own the infrastructure. We hand you the keys.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+        <div class="container">
+            <h2>Ready to Stop Guessing<br>Your Revenue?</h2>
+            <p>Book a free 20-minute Revenue Leak Diagnostic. We'll show you exactly where you're bleeding money—no charge, no pitch.</p>
+            <a href="https://calendly.com/yega" class="cta-secondary">Book Your Free Diagnostic</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>YEGA Systems</h3>
+                    <p>Revenue infrastructure for high-ticket businesses. We build the systems that turn your sales funnel into a predictable revenue machine.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="/sprint">The Paid Funnel Predictability Sprint</a></li>
+                        <li><a href="https://usecosa.com" target="_blank">Cosa - AI Sales Agents</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#who">Who We Serve</a></li>
+                        <li><a href="#contact">Get Started</a></li>
+                        <li><a href="https://linkedin.com/company/yega-systems" target="_blank">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 YEGA Systems. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
