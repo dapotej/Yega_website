@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Conversion System Install | YEGA Systems</title>
+    <meta name="description" content="We fix your follow-up, qualification, and booking process so UK care agencies stop losing inbound enquiries. Installed in 7–10 days.">
+    <!-- =============================================
+         META PIXEL — Paste your pixel code here
+         ============================================= -->
+    <!-- Meta Pixel Code -->
+
+    <!-- End Meta Pixel Code -->
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --yega-cyan: #00D9D9;
+            --yega-dark: #0A0A0A;
+            --yega-gray: #1A1A1A;
+            --yega-light-gray: #2A2A2A;
+            --yega-text: #E5E5E5;
+            --yega-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: var(--yega-dark);
+            color: var(--yega-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--yega-light-gray);
+            position: sticky;
+            top: 0;
+            background: var(--yega-dark);
+            z-index: 1000;
+        }
+
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo { height: 36px; display: block; }
+
+        nav { display: flex; gap: 32px; align-items: center; }
+
+        nav a { color: var(--yega-text); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s ease; }
+        nav a:hover { color: var(--yega-cyan); }
+
+        .cta-nav {
+            background: var(--yega-cyan);
+            color: var(--yega-dark) !important;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .cta-nav:hover { background: #00F0F0; transform: translateY(-2px); }
+
+        /* HERO */
+        .hero { padding: 100px 0 80px; text-align: center; }
+
+        .hero-eyebrow {
+            display: inline-block;
+            color: var(--yega-cyan);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--yega-white);
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--yega-cyan) 0%, #00B8B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 22px;
+            line-height: 1.5;
+            color: var(--yega-text);
+            max-width: 760px;
+            margin: 0 auto 16px;
+        }
+
+        .hero-qualifier {
+            font-size: 16px;
+            color: var(--yega-text);
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+        .hero-qualifier strong { color: var(--yega-cyan); opacity: 1; }
+
+        .hero-urgency {
+            font-size: 15px;
+            color: var(--yega-text);
+            opacity: 0.6;
+            margin-bottom: 44px;
+            font-style: italic;
+        }
+
+        .cta-group { display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+        .cta-primary {
+            display: inline-block;
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-primary:hover { background: #00F0F0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 217, 217, 0.3); }
+
+        .cta-secondary {
+            display: inline-block;
+            background: transparent;
+            color: var(--yega-cyan);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--yega-cyan);
+            transition: all 0.3s ease;
+        }
+        .cta-secondary:hover { background: rgba(0, 217, 217, 0.08); }
+
+        .trust-bar {
+            margin-top: 72px;
+            padding-top: 40px;
+            border-top: 1px solid var(--yega-light-gray);
+            display: flex;
+            justify-content: center;
+            gap: 64px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item { text-align: center; }
+
+        .trust-num {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--yega-cyan);
+            letter-spacing: -0.02em;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .trust-label { font-size: 13px; color: var(--yega-text); opacity: 0.6; }
+
+        /* SHARED */
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--yega-cyan);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h2 { font-size: 44px; font-weight: 700; color: var(--yega-white); letter-spacing: -0.01em; line-height: 1.15; }
+
+        /* PROBLEM */
+        .problem {
+            padding: 80px 0;
+            background: var(--yega-gray);
+            border-top: 1px solid var(--yega-light-gray);
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .problem-copy {
+            max-width: 700px;
+            margin-bottom: 52px;
+        }
+
+        .problem-copy p {
+            font-size: 18px;
+            line-height: 1.75;
+            color: var(--yega-text);
+            margin-bottom: 12px;
+        }
+
+        .problem-copy .kicker {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--yega-white);
+            margin-top: 8px;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .pain-card {
+            background: var(--yega-light-gray);
+            border: 1px solid rgba(0, 217, 217, 0.1);
+            border-radius: 12px;
+            padding: 28px 32px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+        .pain-card:hover { border-color: rgba(0, 217, 217, 0.3); transform: translateY(-3px); }
+
+        .pain-icon { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+
+        .pain-card h4 { font-size: 16px; font-weight: 600; color: var(--yega-white); margin-bottom: 8px; }
+        .pain-card p { font-size: 14px; color: var(--yega-text); line-height: 1.55; }
+
+        /* BEFORE / AFTER */
+        .before-after {
+            padding: 80px 0;
+        }
+
+        .before-after .section-header { text-align: center; margin-bottom: 52px; }
+
+        .ba-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .ba-card {
+            border-radius: 14px;
+            padding: 40px;
+            border: 1px solid var(--yega-light-gray);
+        }
+
+        .ba-card.before { background: var(--yega-gray); }
+        .ba-card.after { background: var(--yega-gray); border-color: var(--yega-cyan); }
+
+        .ba-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ba-card.before .ba-label { color: #EF4444; }
+        .ba-card.after .ba-label { color: var(--yega-cyan); }
+
+        .ba-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ba-list li {
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            color: var(--yega-text);
+            line-height: 1.4;
+            align-items: flex-start;
+        }
+
+        .ba-list li span { flex-shrink: 0; font-size: 18px; margin-top: 1px; }
+
+        /* DELIVERABLES */
+        .deliverables { padding: 80px 0; background: var(--yega-gray); border-top: 1px solid var(--yega-light-gray); border-bottom: 1px solid var(--yega-light-gray); }
+
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 52px;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-badge {
+            background: var(--yega-light-gray);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 15px;
+            color: var(--yega-text);
+            flex-shrink: 0;
+        }
+        .timeline-badge strong { color: var(--yega-cyan); }
+
+        .steps-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .step-card {
+            background: var(--yega-dark);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 14px;
+            padding: 36px 40px;
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 28px;
+            align-items: start;
+            transition: all 0.3s ease;
+        }
+        .step-card:hover { border-color: var(--yega-cyan); transform: translateX(4px); }
+
+        .step-num {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--yega-cyan);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            padding-top: 4px;
+        }
+
+        .step-card h3 { font-size: 20px; font-weight: 600; color: var(--yega-white); margin-bottom: 10px; }
+        .step-card p { font-size: 15px; color: var(--yega-text); line-height: 1.6; margin-bottom: 16px; }
+
+        .step-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+        .tag {
+            background: var(--yega-light-gray);
+            border: 1px solid rgba(0, 217, 217, 0.15);
+            color: var(--yega-cyan);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .step-result {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--yega-cyan);
+            padding-top: 14px;
+            border-top: 1px solid var(--yega-light-gray);
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works { padding: 80px 0; }
+        .how-it-works .section-header { text-align: center; margin-bottom: 52px; }
+
+        .phases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+        .phase-card {
+            background: var(--yega-gray);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 14px;
+            padding: 36px 32px;
+            transition: all 0.3s ease;
+        }
+        .phase-card:hover { border-color: var(--yega-cyan); transform: translateY(-4px); }
+
+        .phase-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--yega-text); opacity: 0.5; margin-bottom: 8px; }
+        .phase-days { font-size: 32px; font-weight: 700; color: var(--yega-cyan); letter-spacing: -0.02em; margin-bottom: 8px; }
+
+        .phase-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--yega-white);
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .phase-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+        .phase-items li {
+            font-size: 14px;
+            color: var(--yega-text);
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.4;
+        }
+        .phase-items li::before { content: '→'; position: absolute; left: 0; color: var(--yega-cyan); font-size: 12px; }
+
+        /* TESTIMONIALS */
+        .testimonials {
+            padding: 80px 0;
+            background: var(--yega-gray);
+            border-top: 1px solid var(--yega-light-gray);
+            border-bottom: 1px solid var(--yega-light-gray);
+        }
+
+        .testimonials .section-header { text-align: center; margin-bottom: 52px; }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--yega-dark);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 14px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover { border-color: rgba(0, 217, 217, 0.3); transform: translateY(-4px); }
+
+        .quote-mark {
+            font-size: 48px;
+            line-height: 1;
+            color: var(--yega-cyan);
+            margin-bottom: 16px;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--yega-text);
+            flex-grow: 1;
+            margin-bottom: 28px;
+        }
+
+        .testimonial-author { display: flex; align-items: center; gap: 14px; }
+
+        .author-initial {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yega-cyan) 0%, #00B8B8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--yega-dark);
+            flex-shrink: 0;
+        }
+
+        .author-name { font-size: 15px; font-weight: 600; color: var(--yega-white); }
+        .author-role { font-size: 13px; color: var(--yega-text); opacity: 0.6; }
+
+        .result-callout {
+            display: inline-block;
+            background: rgba(0, 217, 217, 0.08);
+            border: 1px solid rgba(0, 217, 217, 0.2);
+            color: var(--yega-cyan);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* PRICING */
+        .pricing { padding: 80px 0; }
+        .pricing .section-header { text-align: center; margin-bottom: 52px; }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: var(--yega-gray);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 16px;
+            padding: 44px;
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+        .price-card:hover { border-color: rgba(0, 217, 217, 0.4); }
+        .price-card.featured { border-color: var(--yega-cyan); }
+
+        .featured-badge {
+            position: absolute;
+            top: -13px;
+            left: 32px;
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 6px;
+        }
+
+        .price-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--yega-text); opacity: 0.5; margin-bottom: 10px; }
+        .price-name { font-size: 22px; font-weight: 700; color: var(--yega-white); margin-bottom: 24px; }
+
+        .price-amount {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--yega-cyan);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .price-period { font-size: 14px; color: var(--yega-text); opacity: 0.6; margin-bottom: 32px; }
+
+        .price-includes { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+
+        .price-includes li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 15px;
+            color: var(--yega-text);
+            line-height: 1.4;
+        }
+        .price-includes li::before { content: '✓'; color: var(--yega-cyan); font-weight: 700; flex-shrink: 0; }
+
+        .price-cta-primary {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            transition: all 0.3s ease;
+        }
+        .price-cta-primary:hover { background: #00F0F0; transform: translateY(-2px); }
+
+        .addon-cards { display: flex; flex-direction: column; gap: 24px; }
+
+        .addon-card {
+            background: var(--yega-gray);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 16px;
+            padding: 32px;
+            flex: 1;
+            transition: border-color 0.3s ease;
+        }
+        .addon-card:hover { border-color: rgba(0, 217, 217, 0.3); }
+
+        .addon-price { font-size: 36px; font-weight: 700; color: var(--yega-cyan); letter-spacing: -0.02em; margin-bottom: 4px; }
+
+        .addon-cta {
+            display: block;
+            text-align: center;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--yega-cyan);
+            border: 1px solid var(--yega-cyan);
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+        .addon-cta:hover { background: rgba(0, 217, 217, 0.08); }
+
+        .guarantee {
+            max-width: 960px;
+            margin: 40px auto 0;
+            background: var(--yega-gray);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 14px;
+            padding: 36px 40px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .guarantee-icon { font-size: 40px; flex-shrink: 0; }
+        .guarantee h4 { font-size: 18px; font-weight: 600; color: var(--yega-white); margin-bottom: 8px; }
+        .guarantee p { font-size: 15px; color: var(--yega-text); line-height: 1.6; }
+
+        /* FIT CHECK */
+        .fit-check { padding: 80px 0; background: var(--yega-gray); border-top: 1px solid var(--yega-light-gray); border-bottom: 1px solid var(--yega-light-gray); }
+
+        .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+        .fit-col {
+            background: var(--yega-dark);
+            border: 1px solid var(--yega-light-gray);
+            border-radius: 14px;
+            padding: 36px;
+        }
+
+        .fit-col h3 { font-size: 17px; font-weight: 600; color: var(--yega-white); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--yega-light-gray); }
+
+        .fit-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+        .fit-list li { display: flex; gap: 12px; font-size: 15px; color: var(--yega-text); line-height: 1.5; align-items: flex-start; }
+
+        .check { color: var(--yega-cyan); font-weight: 700; flex-shrink: 0; }
+        .cross { color: #EF4444; font-weight: 700; flex-shrink: 0; }
+
+        /* FINAL CTA */
+        .final-cta { padding: 100px 0; text-align: center; }
+        .final-cta h2 { margin-bottom: 20px; }
+
+        .final-cta p {
+            font-size: 19px;
+            color: var(--yega-text);
+            max-width: 580px;
+            margin: 0 auto 44px;
+            line-height: 1.6;
+        }
+
+        .cta-note { margin-top: 16px; font-size: 13px; color: var(--yega-text); opacity: 0.5; }
+
+        /* FOOTER */
+        footer { padding: 32px 0; border-top: 1px solid var(--yega-light-gray); }
+
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-inner p { font-size: 14px; color: var(--yega-text); opacity: 0.5; }
+
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { font-size: 14px; color: var(--yega-text); opacity: 0.6; text-decoration: none; transition: all 0.2s; }
+        .footer-links a:hover { color: var(--yega-cyan); opacity: 1; }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--yega-white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: var(--yega-gray);
+            border-top: 1px solid var(--yega-light-gray);
+            border-bottom: 1px solid var(--yega-light-gray);
+            padding: 8px 0;
+        }
+
+        .mobile-menu.open { display: flex; }
+
+        .mobile-menu a {
+            color: var(--yega-text);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--yega-light-gray);
+            transition: color 0.2s ease;
+        }
+
+        .mobile-menu a:last-child { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--yega-cyan); }
+
+        .mobile-menu .mobile-cta {
+            margin: 12px 24px 8px;
+            text-align: center;
+            background: var(--yega-cyan);
+            color: var(--yega-dark);
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            border-bottom: none;
+        }
+
+        .mobile-menu .mobile-cta:hover { background: #00F0F0; color: var(--yega-dark); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .phases-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .fit-grid { grid-template-columns: 1fr; }
+            .ba-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 40px; }
+            h2 { font-size: 32px; }
+            .hero-subtitle { font-size: 18px; }
+            .step-card { grid-template-columns: 1fr; gap: 12px; }
+            .step-num { font-size: 28px; }
+            .section-header-row { flex-direction: column; align-items: flex-start; }
+            .guarantee { flex-direction: column; }
+            .trust-bar { gap: 32px; }
+            nav { display: none; }
+            .hamburger { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="https://firebasestorage.googleapis.com/v0/b/cosa-f2c71.firebasestorage.app/o/yega%2Flogos%2Fyega_dark.png?alt=media&token=aeb732ea-7264-45c8-beeb-47645a3ff4ce" alt="YEGA Systems" class="logo">
+                <nav>
+                    <a href="#install">What We Install</a>
+                    <a href="#results">Results</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact" class="cta-nav">Book a Call</a>
+                </nav>
+                <button class="hamburger" id="hamburger" aria-label="Open menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">For UK Care Agencies</div>
+            <h1>Stop Losing Enquiries<br>Before They Become <span class="gradient-text">Clients</span></h1>
+            <p class="hero-subtitle">We fix your follow-up, qualification, and booking process so you stop losing inbound enquiries — and turn them into booked calls automatically.</p>
+            <p class="hero-qualifier">Installed in <strong>7–10 days</strong>. Fixed fee. You own everything we build.</p>
+            <p class="hero-urgency">Every missed enquiry is a potential long-term client going to another agency.</p>
+            <div class="cta-group">
+                <a href="#contact" class="cta-primary">Book a 15-Min Call — We'll Show You Where You're Losing Enquiries</a>
+            </div>
+            <div class="trust-bar">
+                <div class="trust-item">
+                    <span class="trust-num">7–10</span>
+                    <span class="trust-label">Day install</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-num">£1,500</span>
+                    <span class="trust-label">Fixed setup fee</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-num">5</span>
+                    <span class="trust-label">Processes installed</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-num">100%</span>
+                    <span class="trust-label">You own the infrastructure</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="problem">
+        <div class="container">
+            <div class="section-title">The Problem</div>
+            <h2 style="margin-bottom:28px;">You're Not Losing Leads.<br>You're Losing Clients You Already Paid For.</h2>
+            <div class="problem-copy">
+                <p>Most care agencies aren't struggling to get enquiries.</p>
+                <p>They're struggling to convert them.</p>
+                <p>Enquiries come in — but no one responds fast enough.<br>
+                Follow-ups are inconsistent — so families move on.<br>
+                And by the time you reply, the opportunity is already gone.</p>
+                <p class="kicker">You're not losing leads. You're losing clients you already paid for.</p>
+            </div>
+
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <div class="pain-icon">⏱</div>
+                    <div>
+                        <h4>Slow Response Time</h4>
+                        <p>Families enquire, then call a competitor 20 minutes later. First response wins — and you're not winning it.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">🔍</div>
+                    <div>
+                        <h4>No Qualification Process</h4>
+                        <p>Your team wastes hours on tyre-kickers while genuine, ready-to-book enquiries fall through the cracks.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">👻</div>
+                    <div>
+                        <h4>Enquiries Going Silent</h4>
+                        <p>No structured follow-up means "I'll call them back tomorrow" becomes a lost client and lost revenue.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">📅</div>
+                    <div>
+                        <h4>Chaotic Booking Process</h4>
+                        <p>No-shows, cancellations, back-and-forth scheduling — all fixable with the right process in place.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">🕳</div>
+                    <div>
+                        <h4>No Visibility Over Enquiries</h4>
+                        <p>You can't forecast next month's placements because you have no idea where each enquiry currently stands.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">💸</div>
+                    <div>
+                        <h4>Revenue Leaking Daily</h4>
+                        <p>Every unanswered enquiry is potential monthly care revenue you'll never recover. The cost compounds.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEFORE / AFTER -->
+    <section class="before-after">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">The Transformation</div>
+                <h2>What Changes When<br>the Process Is Fixed</h2>
+            </div>
+            <div class="ba-grid">
+                <div class="ba-card before">
+                    <div class="ba-label">✗ &nbsp;Before</div>
+                    <ul class="ba-list">
+                        <li><span>📵</span> Missed calls, no follow-up</li>
+                        <li><span>🐢</span> Slow replies — families move on</li>
+                        <li><span>🤷</span> No way to tell who's serious</li>
+                        <li><span>👻</span> No-shows with no reminder process</li>
+                        <li><span>🕳</span> No idea where each enquiry stands</li>
+                        <li><span>😰</span> Guessing next month's revenue</li>
+                    </ul>
+                </div>
+                <div class="ba-card after">
+                    <div class="ba-label">✓ &nbsp;After</div>
+                    <ul class="ba-list">
+                        <li><span>⚡</span> Instant response, every enquiry</li>
+                        <li><span>🎯</span> Qualified calls booked in your calendar</li>
+                        <li><span>🔍</span> Hot enquiries flagged automatically</li>
+                        <li><span>📅</span> Reminders that cut no-shows</li>
+                        <li><span>📊</span> Clear view of every active enquiry</li>
+                        <li><span>✅</span> Predictable calls and placements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT WE INSTALL -->
+    <section class="deliverables" id="install">
+        <div class="container">
+            <div class="section-header-row">
+                <div>
+                    <div class="section-title">What We Deliver</div>
+                    <h2>5 Processes. Fully Installed.<br>Running in 7–10 Days.</h2>
+                </div>
+                <div class="timeline-badge">⚡ Installed in <strong>7–10 days</strong></div>
+            </div>
+            <div class="steps-list">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <div>
+                        <h3>Lead Capture Fix</h3>
+                        <p>We audit and rebuild the form or intake point where your enquiries land. We reduce friction, add key qualifying questions, and ensure every enquiry arrives with the information your team actually needs to act fast.</p>
+                        <div class="step-tags">
+                            <span class="tag">Typeform</span>
+                            <span class="tag">Reduced friction</span>
+                            <span class="tag">Qualifying questions</span>
+                        </div>
+                        <div class="step-result">✓ Result: Better quality enquiries from day one</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <div>
+                        <h3>Qualification Layer</h3>
+                        <p>We install a simple scoring process so your team instantly knows who is urgent, who has budget, and who is a genuine fit. No more wasted hours on the wrong enquiries.</p>
+                        <div class="step-tags">
+                            <span class="tag">Urgency scoring</span>
+                            <span class="tag">Budget fit</span>
+                            <span class="tag">Hot enquiry alerts</span>
+                        </div>
+                        <div class="step-result">✓ Result: Your team focuses only on ready-to-act enquiries</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <div>
+                        <h3>Automated Follow-Up Sequence</h3>
+                        <p>Instant response via WhatsApp, SMS, or email — the moment an enquiry lands. Followed by a 3–5 step sequence and a missed enquiry recovery flow that re-engages gone-cold prospects before they call someone else.</p>
+                        <div class="step-tags">
+                            <span class="tag">Instant response</span>
+                            <span class="tag">WhatsApp / SMS / Email</span>
+                            <span class="tag">3–5 follow-up messages</span>
+                            <span class="tag">Missed enquiry recovery</span>
+                        </div>
+                        <div class="step-result">✓ Result: No enquiry goes unanswered, even at 11pm</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">04</div>
+                    <div>
+                        <h3>Booking Process Setup</h3>
+                        <p>We set up or fix your booking process — Calendly or Zoho Bookings — with automated reminders that cut no-shows and confirmation messages that reduce cancellations before they happen.</p>
+                        <div class="step-tags">
+                            <span class="tag">Calendly / Zoho Bookings</span>
+                            <span class="tag">Auto reminders</span>
+                            <span class="tag">No-show reduction</span>
+                        </div>
+                        <div class="step-result">✓ Result: More booked calls that actually show up</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">05</div>
+                    <div>
+                        <h3>Simple Enquiry Tracker</h3>
+                        <p>We build a clean, visual view of every enquiry in Zoho or Airtable: Enquiries → Qualified → Booked → Closed. Your team always knows who to call next, and you always know where the month is heading.</p>
+                        <div class="step-tags">
+                            <span class="tag">Zoho / Airtable</span>
+                            <span class="tag">Visual enquiry view</span>
+                            <span class="tag">Conversion tracking</span>
+                        </div>
+                        <div class="step-result">✓ Result: Full visibility. No more chasing your team for updates.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">The Process</div>
+                <h2>How the Install Works</h2>
+            </div>
+            <div class="phases-grid">
+                <div class="phase-card">
+                    <div class="phase-label">Phase 1</div>
+                    <div class="phase-days">Days 1–2</div>
+                    <h3>Audit & Setup</h3>
+                    <ul class="phase-items">
+                        <li>We review your current enquiry flow</li>
+                        <li>Identify the biggest conversion gaps</li>
+                        <li>Access your existing tools</li>
+                        <li>Agree build priorities</li>
+                    </ul>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-label">Phase 2</div>
+                    <div class="phase-days">Days 3–7</div>
+                    <h3>Build & Install</h3>
+                    <ul class="phase-items">
+                        <li>Lead capture form deployed</li>
+                        <li>Qualification process configured</li>
+                        <li>Follow-up sequences written and live</li>
+                        <li>Booking process connected</li>
+                        <li>Enquiry tracker built</li>
+                    </ul>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-label">Phase 3</div>
+                    <div class="phase-days">Days 8–10</div>
+                    <h3>Test & Handover</h3>
+                    <ul class="phase-items">
+                        <li>Full end-to-end test</li>
+                        <li>Team walkthrough and training</li>
+                        <li>You own all logins and assets</li>
+                        <li>Optional support discussed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="results">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">Results That Matter</div>
+                <h2>What Care Agencies Say<br>After the Install</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <div class="result-callout">↑ Enquiry-to-call rate doubled in 3 weeks</div>
+                    <p class="testimonial-text">We were getting good enquiry volume but losing most of them before we even spoke to anyone. YEGA installed a follow-up process and an enquiry tracker and within three weeks our conversion rate had doubled. We now know exactly where every family is in our process.</p>
+                    <div class="testimonial-author">
+                        <div class="author-initial">NS</div>
+                        <div>
+                            <div class="author-name">New Shepherd Care</div>
+                            <div class="author-role">UK Domiciliary Care Agency</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <div class="result-callout">No-shows dropped from 40% to under 10%</div>
+                    <p class="testimonial-text">Our biggest problem was families booking a call then not showing up. YEGA fixed our booking process with proper reminders and a confirmation sequence. We went from 40% no-shows to under 10%. That alone paid for the install several times over.</p>
+                    <div class="testimonial-author">
+                        <div class="author-initial">WC</div>
+                        <div>
+                            <div class="author-name">Willowbrook Care</div>
+                            <div class="author-role">Residential Care Provider</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <div class="result-callout">First response time went from hours to seconds</div>
+                    <p class="testimonial-text">We were manually following up on every enquiry — sometimes the next day. YEGA set up an instant WhatsApp response the moment an enquiry lands. Families now hear from us before they've even considered calling anyone else. It's changed how our whole team operates.</p>
+                    <div class="testimonial-author">
+                        <div class="author-initial">AC</div>
+                        <div>
+                            <div class="author-name">Alexandra Care Home</div>
+                            <div class="author-role">Care Home & Day Services</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">Investment</div>
+                <h2>Simple, Fixed Pricing.<br>No Surprises.</h2>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="price-eyebrow">Standard Install</div>
+                    <div class="price-name">Lead Conversion System</div>
+                    <div class="price-amount">£1,500</div>
+                    <div class="price-period">One-time setup fee — no ongoing commitment</div>
+                    <ul class="price-includes">
+                        <li>Lead capture form fix or rebuild</li>
+                        <li>Qualification scoring process</li>
+                        <li>Automated follow-up sequence (WhatsApp / SMS / Email)</li>
+                        <li>Booking process setup and reminders</li>
+                        <li>Enquiry tracker (Zoho or Airtable)</li>
+                        <li>Team handover and walkthrough</li>
+                        <li>You own all assets and logins</li>
+                    </ul>
+                    <a href="#contact" class="price-cta-primary">Get Started →</a>
+                </div>
+                <div class="addon-cards">
+                    <div class="addon-card">
+                        <div class="price-eyebrow">Pilot Option</div>
+                        <div class="price-name">Fast-Close Install</div>
+                        <div class="addon-price">£1,000</div>
+                        <div class="price-period" style="margin-bottom:20px;">For agencies that want to trial first</div>
+                        <ul class="price-includes">
+                            <li>Core follow-up sequence</li>
+                            <li>Booking process setup</li>
+                            <li>Basic enquiry tracker</li>
+                            <li>Upgrade to full install at any time</li>
+                        </ul>
+                        <a href="#contact" class="addon-cta">Ask About the Pilot →</a>
+                    </div>
+                    <div class="addon-card">
+                        <div class="price-eyebrow">Optional Add-On</div>
+                        <div class="price-name">Ongoing Support</div>
+                        <div class="addon-price">£300<span style="font-size:18px; color:var(--yega-text); opacity:0.6;">/mo</span></div>
+                        <div class="price-period">Cancel anytime</div>
+                        <ul class="price-includes">
+                            <li>Monthly process check and optimisation</li>
+                            <li>Sequence updates as you grow</li>
+                            <li>Priority response for issues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="guarantee">
+                <div class="guarantee-icon">🛡</div>
+                <div>
+                    <h4>Our Commitment to You</h4>
+                    <p>If after the install your process isn't live, tested, and operational — we continue working at no extra charge until it is. We build it once. We build it right. You own it forever.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FIT CHECK -->
+    <section class="fit-check">
+        <div class="container">
+            <div class="section-title">Is This Right for You?</div>
+            <h2 style="margin-bottom:52px;">Built for Care Agencies That...</h2>
+            <div class="fit-grid">
+                <div class="fit-col">
+                    <h3>✓ This is a great fit if you...</h3>
+                    <ul class="fit-list">
+                        <li><span class="check">✓</span> Receive 10+ enquiries per month but struggle to convert them into calls</li>
+                        <li><span class="check">✓</span> Have no structured follow-up after an enquiry lands</li>
+                        <li><span class="check">✓</span> Are losing enquiries because your team can't respond fast enough</li>
+                        <li><span class="check">✓</span> Have no-show problems with your discovery calls</li>
+                        <li><span class="check">✓</span> Can't tell at a glance where each enquiry is in your process</li>
+                        <li><span class="check">✓</span> Want it installed for you — not a course to implement yourself</li>
+                    </ul>
+                </div>
+                <div class="fit-col">
+                    <h3>✗ This is not a fit if you...</h3>
+                    <ul class="fit-list">
+                        <li><span class="cross">✗</span> Are getting fewer than 5 enquiries per month — that's a lead generation problem, not a conversion problem</li>
+                        <li><span class="cross">✗</span> Already have a working automated follow-up process in place</li>
+                        <li><span class="cross">✗</span> Want to manage and maintain the build yourself</li>
+                        <li><span class="cross">✗</span> Are looking for ongoing marketing management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta" id="contact">
+        <div class="container">
+            <div class="section-title" style="text-align:center;">Get Started</div>
+            <h2>Let's Find Where Your<br>Enquiries Are Going Cold</h2>
+            <p>Book a free 15-minute call. We'll map where families are dropping off and show you exactly what we'd fix — no pitch, no commitment.</p>
+            <a href="https://calendly.com/yega" class="cta-primary" style="font-size:17px; padding:20px 44px;">Book a 15-Min Call — We'll Show You Where You're Losing Enquiries</a>
+            <p class="cta-note">No pitch. No commitment. Just clarity on what's fixable in 7–10 days.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <p>© 2025 YEGA Systems. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/">Home</a>
+                    <a href="/sprint">Paid Funnel Sprint</a>
+                    <a href="https://usecosa.com" target="_blank">Cosa — AI Sales Agents</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#install" onclick="closeMobileMenu()">What We Install</a>
+        <a href="#results" onclick="closeMobileMenu()">Results</a>
+        <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+        <a href="#contact" class="mobile-cta" onclick="closeMobileMenu()">Book a Call</a>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
+
+        function closeMobileMenu() {
+            hamburger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+        }
+    </script>
+
+</body>
+</html>
