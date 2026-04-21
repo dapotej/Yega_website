@@ -143,6 +143,45 @@
 
         h2 { font-size: 44px; font-weight: 700; color: var(--yega-white); letter-spacing: -0.01em; line-height: 1.15; }
 
+        /* ── DIAGNOSTIC BANNER ── */
+        .diag-banner {
+            border-radius: 12px;
+            padding: 24px 28px;
+            border: 1px solid;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .diag-icon { font-size: 28px; line-height: 1; padding-top: 2px; }
+        .diag-verdict { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+        .diag-headline { font-size: 17px; font-weight: 700; color: var(--yega-white); margin-bottom: 6px; line-height: 1.3; }
+        .diag-body { font-size: 14px; line-height: 1.6; }
+        .diag-notes { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; gap: 6px; }
+        .diag-note { font-size: 12px; opacity: 0.7; padding-left: 14px; position: relative; }
+        .diag-note::before { content: "→"; position: absolute; left: 0; }
+
+        /* Constraint types */
+        .diag-conversion { background: rgba(220,60,60,0.06); border-color: rgba(220,60,60,0.25); }
+        .diag-conversion .diag-verdict { color: #DC5050; }
+        .diag-conversion .diag-body { color: #bbb; }
+
+        .diag-volume { background: rgba(255,160,60,0.06); border-color: rgba(255,160,60,0.25); }
+        .diag-volume .diag-verdict { color: #FFA03C; }
+        .diag-volume .diag-body { color: #bbb; }
+
+        .diag-spend { background: rgba(255,160,60,0.06); border-color: rgba(255,160,60,0.25); }
+        .diag-spend .diag-verdict { color: #FFA03C; }
+        .diag-spend .diag-body { color: #bbb; }
+
+        .diag-mixed { background: rgba(220,60,60,0.06); border-color: rgba(220,60,60,0.25); }
+        .diag-mixed .diag-verdict { color: #DC5050; }
+        .diag-mixed .diag-body { color: #bbb; }
+
+        .diag-healthy { background: rgba(0,217,217,0.05); border-color: rgba(0,217,217,0.25); }
+        .diag-healthy .diag-verdict { color: var(--yega-cyan); }
+        .diag-healthy .diag-body { color: #bbb; }
+
         /* ── CALCULATOR SECTION ── */
         .calculator-section {
             padding: 64px 0 80px;
@@ -577,8 +616,19 @@
                             </div>
                             <div id="hint-adspend"></div>
                         </div>
+                        <div class="input-block">
+                            <div class="input-label">Cost per Lead (CPL) <span style="font-size:10px;color:#555;text-transform:none;letter-spacing:0;">optional</span></div>
+                            <div class="input-row">
+                                <span class="input-prefix" id="currencySymbol3">£</span>
+                                <input class="input-field" id="cpl" type="number" min="0" placeholder="—" oninput="calc()">
+                            </div>
+                            <div id="hint-cpl"></div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Diagnostic banner -->
+                <div id="diagnosticBanner" style="margin-bottom:28px;"></div>
 
                 <!-- Results -->
                 <div class="section-title" style="margin-bottom:16px;">Current Performance</div>
@@ -723,6 +773,7 @@
             el.classList.add('active');
             document.getElementById('currencySymbol').textContent = symbol;
             document.getElementById('currencySymbol2').textContent = symbol;
+            document.getElementById('currencySymbol3').textContent = symbol;
             calc();
         }
 
@@ -751,6 +802,8 @@
             const closeRate = Math.min(+document.getElementById('closeRate').value, 100) / 100 || 0;
             const adv = +document.getElementById('adv').value || 0;
             const adSpend = +document.getElementById('adSpend').value || 0;
+            const cplInput = +document.getElementById('cpl').value || 0;
+            const cpl = cplInput > 0 ? cplInput : (leads > 0 && adSpend > 0 ? adSpend / leads : 0);
 
             const bm = benchmarks[currentInd];
 
@@ -847,6 +900,115 @@
                     </div>
                 </div>
             `).join('');
+
+            // ── CONSTRAINT DETECTION ──
+            const bookOk  = bookRate * 100  >= bm.bookRate  * 0.85;
+            const showOk  = showRate * 100  >= bm.showRate  * 0.85;
+            const closeOk = closeRate * 100 >= bm.closeRate * 0.85;
+            const conversionHealthy = bookOk && showOk && closeOk;
+
+            // CPL benchmarks by industry (rough paid social averages)
+            const cplBenchmarks = { coaching: 40, saas: 80, agency: 60, care: 25, property: 50, ecomm: 8 };
+            const cplBm = cplBenchmarks[currentInd];
+            const cplHigh = cpl > 0 && cplBm > 0 && cpl > cplBm * 1.5;
+            const cplVeryHigh = cpl > 0 && cplBm > 0 && cpl > cplBm * 2.5;
+
+            // Volume: fewer than ~20 leads is a traffic problem for most high-ticket offers
+            const volumeLow = leads < 20 && adv >= 1000;
+            const volumeVeryLow = leads < 8 && adv >= 1000;
+
+            // Determine primary constraint
+            let constraint = 'conversion'; // default
+            if (conversionHealthy && volumeLow) constraint = 'volume';
+            else if (!conversionHealthy && volumeLow) constraint = 'mixed';
+            else if (conversionHealthy && !volumeLow && cplHigh) constraint = 'spend';
+            else if (conversionHealthy && !volumeLow && !cplHigh) constraint = 'healthy';
+
+            // Build diagnostic config
+            const diagConfigs = {
+                conversion: {
+                    type: 'diag-conversion',
+                    icon: '▼',
+                    verdict: 'Primary constraint: conversion',
+                    headline: 'Your funnel is leaking revenue at the conversion stage.',
+                    body: `You have enough leads coming in — the problem is what happens after they land. ${!bookOk ? 'Leads aren\'t booking calls. ' : ''}${!showOk ? 'Booked calls aren\'t showing up. ' : ''}${!closeOk ? 'Calls aren\'t converting to clients. ' : ''}This is a process problem, not a traffic problem. More ad spend won\'t fix it.`,
+                    notes: [
+                        !bookOk ? `Your book rate is ${Math.round(bookRate*100)}% — benchmark is ${bm.bookRate}%. A faster follow-up sequence would close this gap.` : null,
+                        !showOk ? `Your show-up rate is ${Math.round(showRate*100)}% — benchmark is ${bm.showRate}%. Reminder sequences and pre-call confirmation reduce no-shows significantly.` : null,
+                        !closeOk ? `Your close rate is ${Math.round(closeRate*100)}% — benchmark is ${bm.closeRate}%. Better pre-qualification before booking means every call is higher intent.` : null,
+                    ].filter(Boolean)
+                },
+                volume: {
+                    type: 'diag-volume',
+                    icon: '◆',
+                    verdict: 'Primary constraint: lead volume',
+                    headline: 'Your funnel mechanics are working. You need more leads.',
+                    body: `Your book rate, show-up rate, and close rate are all at or near benchmark — the process is sound. With only ${leads} leads per month and an average deal value of ${fmt(adv)}, revenue is capped by volume, not conversion. Fixing the funnel further won\'t move the needle here.`,
+                    notes: [
+                        'The right lever is increasing qualified lead volume — through paid traffic, outbound, or organic.',
+                        adSpend > 0 ? `Your current ad spend is ${fmt(adSpend)}/mo. If CPL is healthy, increasing budget is likely the highest-ROI move.` : 'Consider what it would cost to double your monthly lead volume at your current CPL.'
+                    ]
+                },
+                mixed: {
+                    type: 'diag-mixed',
+                    icon: '▼',
+                    verdict: 'Dual constraint: volume + conversion',
+                    headline: 'Low lead volume and conversion issues — fix conversion first.',
+                    body: `You have two problems: not enough leads coming in, and the leads that do arrive aren\'t converting well. The right order is to fix conversion first. Scaling traffic into a leaky funnel burns budget without proportional return.`,
+                    notes: [
+                        !bookOk ? `Book rate is ${Math.round(bookRate*100)}% vs ${bm.bookRate}% benchmark — the first leak to fix.` : null,
+                        !showOk ? `Show-up rate is ${Math.round(showRate*100)}% vs ${bm.showRate}% benchmark.` : null,
+                        !closeOk ? `Close rate is ${Math.round(closeRate*100)}% vs ${bm.closeRate}% benchmark.` : null,
+                        'Once conversion is solid, increasing volume will have a compounding effect.'
+                    ].filter(Boolean)
+                },
+                spend: {
+                    type: 'diag-spend',
+                    icon: '◆',
+                    verdict: 'Secondary signal: ad efficiency',
+                    headline: 'Your funnel works — but your ad spend is underperforming.',
+                    body: `Your conversion mechanics are healthy, but your cost per lead of ${fmt(cpl)} is ${cplVeryHigh ? 'significantly' : 'notably'} above the ${cplBm ? fmt(cplBm) : 'typical'} benchmark for ${bm.label}. This points to an upstream problem — ad creative, targeting, or audience — rather than a funnel issue.`,
+                    notes: [
+                        'This is outside YEGA\'s core scope — but worth flagging before scaling spend.',
+                        'A media buyer or creative audit would address this more effectively than process changes.',
+                        'If CPL comes down to benchmark, your current funnel would generate meaningfully more revenue without any conversion work.'
+                    ]
+                },
+                healthy: {
+                    type: 'diag-healthy',
+                    icon: '✓',
+                    verdict: 'No critical constraint detected',
+                    headline: 'Your funnel is performing at or above benchmark.',
+                    body: `Conversion rates are healthy across all three stages. The opportunity here is scaling — more qualified lead volume at the same conversion rates compounds directly into revenue.`,
+                    notes: [
+                        'The highest-leverage move is usually increasing qualified traffic, not further optimising conversion.',
+                        'Consider what a 2x in monthly leads would do to your revenue at current conversion rates.'
+                    ]
+                }
+            };
+
+            const diag = diagConfigs[constraint];
+            document.getElementById('diagnosticBanner').innerHTML = `
+                <div class="diag-banner ${diag.type}">
+                    <div class="diag-icon">${diag.icon}</div>
+                    <div>
+                        <div class="diag-verdict">${diag.verdict}</div>
+                        <div class="diag-headline">${diag.headline}</div>
+                        <div class="diag-body">${diag.body}</div>
+                        ${diag.notes.length ? `<div class="diag-notes">${diag.notes.map(n => `<div class="diag-note">${n}</div>`).join('')}</div>` : ''}
+                    </div>
+                </div>
+            `;
+
+            // CPL hint
+            if (cpl > 0 && cplBm > 0) {
+                const cplDiff = Math.round(((cpl - cplBm) / cplBm) * 100);
+                const cplCls = cplDiff <= 10 ? 'bm-good' : cplDiff <= 50 ? 'bm-warn' : 'bm-bad';
+                const sign = cplDiff >= 0 ? '+' : '';
+                document.getElementById('hint-cpl').innerHTML = `<span class="input-benchmark ${cplCls}">${sign}${cplDiff}% vs ${fmt(cplBm)} benchmark</span>`;
+            } else {
+                document.getElementById('hint-cpl').innerHTML = '';
+            }
 
             // Opportunity box
             const oppEl = document.getElementById('opp-value');
