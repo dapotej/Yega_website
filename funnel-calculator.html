@@ -5,1081 +5,832 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funnel Revenue Calculator | YEGA Systems</title>
     <meta name="description" content="Calculate your funnel's revenue leaks in real time. See exactly how much you're losing at each stage — and what it's worth to fix it.">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --cyan:#00D9D9; --dark:#0A0A0A; --gray:#1A1A1A; --lgray:#2A2A2A; --text:#E5E5E5; --white:#FFFFFF; }
+        body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; background:var(--dark); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+        .container { max-width:1200px; margin:0 auto; padding:0 24px; }
 
-        :root {
-            --yega-cyan: #00D9D9;
-            --yega-dark: #0A0A0A;
-            --yega-gray: #1A1A1A;
-            --yega-light-gray: #2A2A2A;
-            --yega-text: #E5E5E5;
-            --yega-white: #FFFFFF;
-        }
+        /* HEADER */
+        header { padding:24px 0; border-bottom:1px solid var(--lgray); position:sticky; top:0; background:var(--dark); z-index:1000; }
+        .header-content { display:flex; justify-content:space-between; align-items:center; }
+        .logo { height:36px; display:block; }
+        nav { display:flex; gap:32px; align-items:center; }
+        nav a { color:var(--text); text-decoration:none; font-size:15px; font-weight:500; transition:color 0.3s; }
+        nav a:hover, nav a.active { color:var(--cyan); }
+        .cta-nav { background:var(--cyan); color:var(--dark)!important; padding:10px 24px; border-radius:6px; font-weight:600; transition:all 0.3s; }
+        .cta-nav:hover { background:#00F0F0; transform:translateY(-2px); }
+        .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
+        .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:all 0.3s; transform-origin:center; }
+        .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+        .mobile-menu { display:none; flex-direction:column; background:var(--gray); border-top:1px solid var(--lgray); border-bottom:1px solid var(--lgray); padding:8px 0; }
+        .mobile-menu.open { display:flex; }
+        .mobile-menu a { color:var(--text); text-decoration:none; font-size:16px; font-weight:500; padding:16px 24px; border-bottom:1px solid var(--lgray); transition:color 0.2s; }
+        .mobile-menu a:last-child { border-bottom:none; }
+        .mobile-menu a:hover { color:var(--cyan); }
+        .mobile-menu .mobile-cta { margin:12px 24px 8px; text-align:center; background:var(--cyan); color:var(--dark); padding:14px; border-radius:6px; font-weight:600; border-bottom:none; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: var(--yega-dark);
-            color: var(--yega-text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+        /* HERO */
+        .hero { padding:80px 0 64px; text-align:center; }
+        .hero-eyebrow { display:inline-block; color:var(--cyan); font-size:14px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:24px; }
+        h1 { font-size:56px; font-weight:700; line-height:1.1; margin-bottom:20px; color:var(--white); letter-spacing:-0.02em; }
+        .gradient-text { background:linear-gradient(90deg,var(--cyan) 0%,#00B8B8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .hero-subtitle { font-size:20px; line-height:1.55; color:var(--text); max-width:680px; margin:0 auto 12px; opacity:0.85; }
+        .hero-note { font-size:14px; color:var(--text); opacity:0.5; }
+        h2 { font-size:44px; font-weight:700; color:var(--white); letter-spacing:-0.01em; line-height:1.15; }
+        .section-title { font-size:14px; text-transform:uppercase; letter-spacing:2px; color:var(--cyan); margin-bottom:16px; font-weight:600; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        /* CALCULATOR */
+        .calculator-section { padding:64px 0 80px; background:var(--gray); border-top:1px solid var(--lgray); }
+        .calc-wrap { background:var(--dark); border:1px solid var(--lgray); border-radius:16px; padding:40px; }
 
-        /* ── HEADER ── */
-        header {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--yega-light-gray);
-            position: sticky;
-            top: 0;
-            background: var(--yega-dark);
-            z-index: 1000;
-        }
+        /* Controls */
+        .controls-bar { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; margin-bottom:28px; flex-wrap:wrap; }
+        .controls-group { display:flex; flex-direction:column; gap:8px; }
+        .controls-label { font-size:11px; color:#666; letter-spacing:0.08em; text-transform:uppercase; }
+        .btn-row { display:flex; gap:8px; flex-wrap:wrap; }
+        .ind-btn, .cur-btn, .prop-btn { background:var(--lgray); border:1px solid #333; color:#888; font-size:13px; padding:8px 16px; border-radius:8px; cursor:pointer; transition:all 0.15s; font-family:inherit; white-space:nowrap; }
+        .ind-btn:hover, .cur-btn:hover, .prop-btn:hover { border-color:var(--cyan); color:var(--cyan); }
+        .ind-btn.active, .cur-btn.active { background:var(--cyan); border-color:var(--cyan); color:var(--dark); font-weight:600; }
+        .prop-btn.active { background:rgba(0,217,217,0.12); border-color:var(--cyan); color:var(--cyan); font-weight:600; }
 
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { height: 36px; display: block; }
-
-        nav { display: flex; gap: 32px; align-items: center; }
-        nav a { color: var(--yega-text); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s ease; }
-        nav a:hover { color: var(--yega-cyan); }
-        nav a.active { color: var(--yega-cyan); }
-
-        .cta-nav {
-            background: var(--yega-cyan);
-            color: var(--yega-dark) !important;
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .cta-nav:hover { background: #00F0F0; transform: translateY(-2px); }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-            padding: 4px;
-            background: none;
-            border: none;
-        }
-        .hamburger span { display: block; width: 24px; height: 2px; background: var(--yega-white); border-radius: 2px; transition: all 0.3s ease; transform-origin: center; }
-        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            background: var(--yega-gray);
-            border-top: 1px solid var(--yega-light-gray);
-            border-bottom: 1px solid var(--yega-light-gray);
-            padding: 8px 0;
-        }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { color: var(--yega-text); text-decoration: none; font-size: 16px; font-weight: 500; padding: 16px 24px; border-bottom: 1px solid var(--yega-light-gray); transition: color 0.2s ease; }
-        .mobile-menu a:last-child { border-bottom: none; }
-        .mobile-menu a:hover { color: var(--yega-cyan); }
-        .mobile-menu .mobile-cta { margin: 12px 24px 8px; text-align: center; background: var(--yega-cyan); color: var(--yega-dark); padding: 14px; border-radius: 6px; font-weight: 600; border-bottom: none; }
-        .mobile-menu .mobile-cta:hover { background: #00F0F0; color: var(--yega-dark); }
-
-        /* ── HERO ── */
-        .hero { padding: 80px 0 64px; text-align: center; }
-
-        .hero-eyebrow {
-            display: inline-block;
-            color: var(--yega-cyan);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-
-        h1 {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            color: var(--yega-white);
-            letter-spacing: -0.02em;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, var(--yega-cyan) 0%, #00B8B8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            line-height: 1.55;
-            color: var(--yega-text);
-            max-width: 680px;
-            margin: 0 auto 12px;
-            opacity: 0.85;
-        }
-
-        .hero-note {
-            font-size: 14px;
-            color: var(--yega-text);
-            opacity: 0.5;
-            margin-bottom: 0;
-        }
-
-        /* ── SHARED ── */
-        .section-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--yega-cyan);
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-
-        h2 { font-size: 44px; font-weight: 700; color: var(--yega-white); letter-spacing: -0.01em; line-height: 1.15; }
-
-        /* ── DIAGNOSTIC BANNER ── */
-        .diag-banner {
-            border-radius: 12px;
-            padding: 24px 28px;
-            border: 1px solid;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-        .diag-icon { font-size: 28px; line-height: 1; padding-top: 2px; }
-        .diag-verdict { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-        .diag-headline { font-size: 17px; font-weight: 700; color: var(--yega-white); margin-bottom: 6px; line-height: 1.3; }
-        .diag-body { font-size: 14px; line-height: 1.6; }
-        .diag-notes { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; gap: 6px; }
-        .diag-note { font-size: 12px; opacity: 0.7; padding-left: 14px; position: relative; }
-        .diag-note::before { content: "→"; position: absolute; left: 0; }
-
-        /* Constraint types */
-        .diag-conversion { background: rgba(220,60,60,0.06); border-color: rgba(220,60,60,0.25); }
-        .diag-conversion .diag-verdict { color: #DC5050; }
-        .diag-conversion .diag-body { color: #bbb; }
-
-        .diag-volume { background: rgba(255,160,60,0.06); border-color: rgba(255,160,60,0.25); }
-        .diag-volume .diag-verdict { color: #FFA03C; }
-        .diag-volume .diag-body { color: #bbb; }
-
-        .diag-spend { background: rgba(255,160,60,0.06); border-color: rgba(255,160,60,0.25); }
-        .diag-spend .diag-verdict { color: #FFA03C; }
-        .diag-spend .diag-body { color: #bbb; }
-
-        .diag-mixed { background: rgba(220,60,60,0.06); border-color: rgba(220,60,60,0.25); }
-        .diag-mixed .diag-verdict { color: #DC5050; }
-        .diag-mixed .diag-body { color: #bbb; }
-
-        .diag-healthy { background: rgba(0,217,217,0.05); border-color: rgba(0,217,217,0.25); }
-        .diag-healthy .diag-verdict { color: var(--yega-cyan); }
-        .diag-healthy .diag-body { color: #bbb; }
-
-        /* ── CALCULATOR SECTION ── */
-        .calculator-section {
-            padding: 64px 0 80px;
-            background: var(--yega-gray);
-            border-top: 1px solid var(--yega-light-gray);
-        }
-
-        .calc-wrap {
-            background: var(--yega-dark);
-            border: 1px solid var(--yega-light-gray);
-            border-radius: 16px;
-            padding: 40px;
-        }
-
-        /* Currency + Industry bar */
-        .controls-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 24px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
-
-        .controls-group { display: flex; flex-direction: column; gap: 8px; }
-        .controls-label { font-size: 11px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; }
-
-        .industry-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .currency-row { display: flex; gap: 8px; }
-
-        .ind-btn, .cur-btn {
-            background: var(--yega-light-gray);
-            border: 1px solid #333;
-            color: #888;
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-        .ind-btn:hover, .cur-btn:hover { border-color: var(--yega-cyan); color: var(--yega-cyan); }
-        .ind-btn.active, .cur-btn.active {
-            background: var(--yega-cyan);
-            border-color: var(--yega-cyan);
-            color: var(--yega-dark);
-            font-weight: 600;
-        }
-
-        /* Input grid */
-        .inputs-section {
-            background: var(--yega-gray);
-            border: 1px solid var(--yega-light-gray);
-            border-radius: 12px;
-            padding: 28px;
-            margin-bottom: 32px;
-        }
-
-        .inputs-header {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--yega-cyan);
-            margin-bottom: 24px;
-        }
-
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-
+        /* Inputs */
+        .inputs-section { background:var(--gray); border:1px solid var(--lgray); border-radius:12px; padding:28px; margin-bottom:28px; }
+        .inputs-header { font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--cyan); margin-bottom:20px; }
+        .prop-toggle { margin-bottom:20px; }
+        .input-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
         .input-block {}
-        .input-label { font-size: 12px; color: #777; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+        .input-label { font-size:12px; color:#777; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px; display:block; }
+        .opt { font-size:10px; color:#555; text-transform:none; letter-spacing:0; }
+        .input-row { display:flex; align-items:center; background:var(--dark); border:1px solid #333; border-radius:8px; overflow:hidden; transition:border-color 0.2s; }
+        .input-row:focus-within { border-color:var(--cyan); }
+        .input-prefix, .input-suffix { font-size:14px; color:#555; padding:0 12px; flex-shrink:0; }
+        .input-field { background:none; border:none; color:var(--white); font-size:16px; font-family:inherit; font-weight:600; padding:12px 12px 12px 0; width:100%; outline:none; }
+        .input-field::-webkit-inner-spin-button, .input-field::-webkit-outer-spin-button { -webkit-appearance:none; }
+        .input-hint { margin-top:5px; min-height:20px; }
+        .hint-pill { display:inline-block; font-size:11px; padding:3px 8px; border-radius:4px; }
+        .hint-good { background:rgba(0,217,217,0.1); color:var(--cyan); }
+        .hint-warn { background:rgba(255,160,60,0.12); color:#FFA03C; }
+        .hint-bad  { background:rgba(220,60,60,0.12); color:#DC5050; }
 
-        .input-row {
-            display: flex;
-            align-items: center;
-            background: var(--yega-dark);
-            border: 1px solid #333;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: border-color 0.2s;
-        }
-        .input-row:focus-within { border-color: var(--yega-cyan); }
-
-        .input-prefix, .input-suffix { font-size: 14px; color: #555; padding: 0 12px; flex-shrink: 0; }
-
-        .input-field {
-            background: none;
-            border: none;
-            color: var(--yega-white);
-            font-size: 16px;
-            font-family: inherit;
-            font-weight: 600;
-            padding: 12px 12px 12px 0;
-            width: 100%;
-            outline: none;
-        }
-        .input-field::-webkit-inner-spin-button, .input-field::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-        .input-benchmark {
-            font-size: 11px;
-            margin-top: 5px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-        .bm-good { background: rgba(0,217,217,0.1); color: var(--yega-cyan); }
-        .bm-warn { background: rgba(255,160,60,0.12); color: #FFA03C; }
-        .bm-bad { background: rgba(220,60,60,0.12); color: #DC5050; }
+        /* Diagnostic */
+        .diag-banner { border-radius:12px; padding:24px 28px; border:1px solid; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; margin-bottom:28px; }
+        .diag-icon { font-size:22px; line-height:1; padding-top:4px; }
+        .diag-verdict { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px; }
+        .diag-headline { font-size:17px; font-weight:700; color:var(--white); margin-bottom:6px; line-height:1.3; }
+        .diag-body { font-size:14px; line-height:1.65; color:#aaa; }
+        .diag-notes { margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); display:flex; flex-direction:column; gap:6px; }
+        .diag-note { font-size:12px; color:#666; padding-left:14px; position:relative; line-height:1.5; }
+        .diag-note::before { content:"→"; position:absolute; left:0; color:#444; }
+        .diag-conversion { background:rgba(220,60,60,0.06); border-color:rgba(220,60,60,0.25); }
+        .diag-conversion .diag-verdict { color:#DC5050; }
+        .diag-volume { background:rgba(255,160,60,0.06); border-color:rgba(255,160,60,0.25); }
+        .diag-volume .diag-verdict { color:#FFA03C; }
+        .diag-mixed { background:rgba(220,60,60,0.06); border-color:rgba(220,60,60,0.25); }
+        .diag-mixed .diag-verdict { color:#DC5050; }
+        .diag-spend { background:rgba(255,160,60,0.06); border-color:rgba(255,160,60,0.25); }
+        .diag-spend .diag-verdict { color:#FFA03C; }
+        .diag-healthy { background:rgba(0,217,217,0.05); border-color:rgba(0,217,217,0.25); }
+        .diag-healthy .diag-verdict { color:var(--cyan); }
 
         /* Results */
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
+        .results-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+        .metric-card { background:var(--gray); border:1px solid var(--lgray); border-radius:12px; padding:20px 22px; }
+        .metric-label { font-size:11px; color:#666; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px; }
+        .metric-value { font-size:26px; font-weight:700; color:var(--white); line-height:1; }
+        .metric-value.cyan { color:var(--cyan); }
+        .metric-value.warn { color:#FFA03C; }
+        .metric-value.bad  { color:#DC5050; }
+        .metric-sub { font-size:12px; color:#555; margin-top:4px; }
+
+        /* Leaks */
+        .leaks-header { font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#666; margin-bottom:12px; }
+        .leak-row { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-radius:10px; margin-bottom:10px; border:1px solid transparent; }
+        .leak-name { font-size:14px; font-weight:600; color:var(--white); margin-bottom:2px; }
+        .leak-sub  { font-size:12px; color:#666; }
+        .leak-right { display:flex; align-items:center; gap:16px; text-align:right; flex-shrink:0; }
+        .leak-bm  { font-size:12px; color:#555; }
+        .leak-val { font-size:16px; font-weight:700; }
+        .bm-note  { font-size:11px; color:#444; margin-top:8px; padding-left:4px; }
+
+        /* Opportunity */
+        .opp-box { background:rgba(0,217,217,0.05); border:1px solid rgba(0,217,217,0.3); border-radius:14px; padding:28px 32px; margin-top:28px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+        .opp-label  { font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--cyan); margin-bottom:8px; }
+        .opp-value  { font-size:44px; font-weight:700; color:var(--cyan); letter-spacing:-0.02em; line-height:1; }
+        .opp-annual { font-size:14px; color:#555; margin-top:6px; }
+        .opp-desc   { font-size:15px; color:var(--text); line-height:1.55; max-width:360px; }
+        .opp-cta { display:inline-block; margin-top:16px; background:var(--cyan); color:var(--dark); padding:13px 28px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:all 0.3s; }
+        .opp-cta:hover { background:#00F0F0; transform:translateY(-2px); }
+
+        /* Benchmarks */
+        .benchmarks-section { padding:64px 0; }
+        .bm-intro { font-size:17px; color:var(--text); opacity:0.7; margin-bottom:40px; max-width:600px; line-height:1.6; }
+        .bm-table-wrap { background:var(--gray); border:1px solid var(--lgray); border-radius:14px; overflow:hidden; }
+        .bm-table-head { display:grid; grid-template-columns:1fr 120px 120px 120px; padding:14px 28px; background:var(--lgray); border-bottom:1px solid #333; }
+        .bm-th { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#666; }
+        .bm-th.r { text-align:right; }
+        .bm-row { display:grid; grid-template-columns:1fr 120px 120px 120px; padding:18px 28px; border-bottom:1px solid #222; align-items:center; transition:background 0.15s; }
+        .bm-row:last-child { border-bottom:none; }
+        .bm-row:hover { background:rgba(255,255,255,0.02); }
+        .bm-mname { font-size:14px; color:var(--text); }
+        .bm-bval  { font-size:14px; color:#666; text-align:right; }
+        .bm-yval  { font-size:14px; font-weight:700; text-align:right; }
+        .bm-stat  { text-align:right; }
+        .sbadge { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:4px; }
+        .sg { background:rgba(0,217,217,0.1); color:var(--cyan); }
+        .sw { background:rgba(255,160,60,0.12); color:#FFA03C; }
+        .sb { background:rgba(220,60,60,0.12); color:#DC5050; }
+
+        /* CTA */
+        .cta-section { padding:80px 0; background:var(--gray); border-top:1px solid var(--lgray); text-align:center; }
+        .cta-section h2 { margin-bottom:20px; }
+        .cta-section p { font-size:18px; color:var(--text); opacity:0.8; max-width:560px; margin:0 auto 40px; line-height:1.6; }
+        .cta-primary { display:inline-block; background:var(--cyan); color:var(--dark); padding:18px 40px; border-radius:8px; font-size:17px; font-weight:600; text-decoration:none; transition:all 0.3s; }
+        .cta-primary:hover { background:#00F0F0; transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,217,217,0.3); }
+        .cta-note { margin-top:14px; font-size:13px; color:var(--text); opacity:0.45; }
+
+        /* Footer */
+        footer { padding:32px 0; border-top:1px solid var(--lgray); }
+        .footer-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+        .footer-inner p { font-size:14px; color:var(--text); opacity:0.5; }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { font-size:14px; color:var(--text); opacity:0.6; text-decoration:none; transition:all 0.2s; }
+        .footer-links a:hover { color:var(--cyan); opacity:1; }
+
+        /* Responsive */
+        @media (max-width:900px) {
+            .results-grid { grid-template-columns:repeat(2,1fr); }
+            .bm-table-head, .bm-row { grid-template-columns:1fr 90px 90px; }
+            .bm-th:nth-child(3), .bm-yval { display:none; }
+            .opp-box { flex-direction:column; }
         }
-
-        .metric-card {
-            background: var(--yega-gray);
-            border: 1px solid var(--yega-light-gray);
-            border-radius: 12px;
-            padding: 20px 22px;
+        @media (max-width:768px) {
+            h1 { font-size:36px; } h2 { font-size:30px; }
+            .hero-subtitle { font-size:17px; }
+            .calc-wrap { padding:20px 16px; }
+            .inputs-section { padding:20px 16px; }
+            .input-grid { grid-template-columns:1fr 1fr; }
+            nav { display:none; } .hamburger { display:flex; }
         }
-
-        .metric-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
-        .metric-value { font-size: 26px; font-weight: 700; color: var(--yega-white); line-height: 1; }
-        .metric-value.cyan { color: var(--yega-cyan); }
-        .metric-value.warn { color: #FFA03C; }
-        .metric-value.bad { color: #DC5050; }
-        .metric-sub { font-size: 12px; color: #555; margin-top: 4px; }
-
-        /* Leak breakdown */
-        .leaks-header {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        .leak-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .leak-left { }
-        .leak-name { font-size: 14px; font-weight: 600; color: var(--yega-white); margin-bottom: 2px; }
-        .leak-sub { font-size: 12px; color: #666; }
-
-        .leak-right { display: flex; align-items: center; gap: 16px; text-align: right; flex-shrink: 0; }
-        .leak-bm { font-size: 12px; color: #555; }
-        .leak-yours { font-size: 16px; font-weight: 700; }
-
-        /* Opportunity box */
-        .opportunity-box {
-            background: rgba(0,217,217,0.05);
-            border: 1px solid rgba(0,217,217,0.3);
-            border-radius: 14px;
-            padding: 28px 32px;
-            margin-top: 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .opp-left {}
-        .opp-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--yega-cyan); margin-bottom: 8px; }
-        .opp-value { font-size: 44px; font-weight: 700; color: var(--yega-cyan); letter-spacing: -0.02em; line-height: 1; }
-        .opp-annual { font-size: 14px; color: #555; margin-top: 6px; }
-
-        .opp-right { text-align: right; }
-        .opp-desc { font-size: 15px; color: var(--yega-text); line-height: 1.55; max-width: 360px; }
-        .opp-cta {
-            display: inline-block;
-            margin-top: 16px;
-            background: var(--yega-cyan);
-            color: var(--yega-dark);
-            padding: 13px 28px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .opp-cta:hover { background: #00F0F0; transform: translateY(-2px); }
-
-        /* Benchmarks table */
-        .benchmarks-section {
-            padding: 64px 0;
-        }
-
-        .bm-table-wrap {
-            background: var(--yega-gray);
-            border: 1px solid var(--yega-light-gray);
-            border-radius: 14px;
-            overflow: hidden;
-        }
-
-        .bm-table-header {
-            display: grid;
-            grid-template-columns: 1fr 120px 120px 120px;
-            gap: 0;
-            padding: 14px 28px;
-            background: var(--yega-light-gray);
-            border-bottom: 1px solid #333;
-        }
-
-        .bm-th {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #666;
-        }
-        .bm-th.right { text-align: right; }
-
-        .bm-row-item {
-            display: grid;
-            grid-template-columns: 1fr 120px 120px 120px;
-            padding: 18px 28px;
-            border-bottom: 1px solid #222;
-            align-items: center;
-            transition: background 0.15s;
-        }
-        .bm-row-item:last-child { border-bottom: none; }
-        .bm-row-item:hover { background: rgba(255,255,255,0.02); }
-
-        .bm-metric-name { font-size: 14px; color: var(--yega-text); }
-        .bm-industry-val { font-size: 14px; color: #666; text-align: right; }
-        .bm-your-val { font-size: 14px; font-weight: 700; text-align: right; }
-        .bm-status { text-align: right; }
-
-        .status-badge {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 4px;
-        }
-        .status-good { background: rgba(0,217,217,0.1); color: var(--yega-cyan); }
-        .status-warn { background: rgba(255,160,60,0.12); color: #FFA03C; }
-        .status-bad { background: rgba(220,60,60,0.12); color: #DC5050; }
-
-        /* CTA section */
-        .calc-cta-section {
-            padding: 80px 0;
-            background: var(--yega-gray);
-            border-top: 1px solid var(--yega-light-gray);
-            text-align: center;
-        }
-
-        .calc-cta-section h2 { margin-bottom: 20px; }
-        .calc-cta-section p { font-size: 18px; color: var(--yega-text); opacity: 0.8; max-width: 560px; margin: 0 auto 40px; line-height: 1.6; }
-
-        .cta-primary {
-            display: inline-block;
-            background: var(--yega-cyan);
-            color: var(--yega-dark);
-            padding: 18px 40px;
-            border-radius: 8px;
-            font-size: 17px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .cta-primary:hover { background: #00F0F0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,217,217,0.3); }
-        .cta-note { margin-top: 14px; font-size: 13px; color: var(--yega-text); opacity: 0.45; }
-
-        /* FOOTER */
-        footer { padding: 32px 0; border-top: 1px solid var(--yega-light-gray); }
-        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .footer-inner p { font-size: 14px; color: var(--yega-text); opacity: 0.5; }
-        .footer-links { display: flex; gap: 24px; }
-        .footer-links a { font-size: 14px; color: var(--yega-text); opacity: 0.6; text-decoration: none; transition: all 0.2s; }
-        .footer-links a:hover { color: var(--yega-cyan); opacity: 1; }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .results-grid { grid-template-columns: repeat(2, 1fr); }
-            .bm-table-header, .bm-row-item { grid-template-columns: 1fr 90px 90px; }
-            .bm-th:nth-child(3), .bm-your-val { display: none; }
-            .opportunity-box { flex-direction: column; }
-            .opp-right { text-align: left; }
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 38px; }
-            h2 { font-size: 30px; }
-            .hero-subtitle { font-size: 17px; }
-            .calc-wrap { padding: 24px 18px; }
-            .inputs-section { padding: 20px 18px; }
-            .results-grid { grid-template-columns: 1fr 1fr; }
-            .controls-bar { flex-direction: column; }
-            nav { display: none; }
-            .hamburger { display: flex; }
-            .input-grid { grid-template-columns: 1fr 1fr; }
-            .bm-table-header, .bm-row-item { padding: 14px 18px; }
-        }
-
-        @media (max-width: 480px) {
-            .results-grid { grid-template-columns: 1fr; }
-            .input-grid { grid-template-columns: 1fr; }
+        @media (max-width:480px) {
+            .results-grid { grid-template-columns:1fr; }
+            .input-grid { grid-template-columns:1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/cosa-f2c71.firebasestorage.app/o/yega%2Flogos%2Fyega_dark.png?alt=media&token=aeb732ea-7264-45c8-beeb-47645a3ff4ce" alt="YEGA Systems" class="logo"></a>
-                <nav>
-                    <a href="/care-agencies">Care Agencies</a>
-                    <a href="/sprint">Paid Funnel Sprint</a>
-                    <a href="/calculator" class="active">Calculator</a>
-                    <a href="https://usecosa.com" target="_blank">Cosa</a>
-                    <a href="/#contact" class="cta-nav">Book a Call</a>
-                </nav>
-                <button class="hamburger" id="hamburger" aria-label="Open menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
+<!-- HEADER -->
+<header>
+    <div class="container">
+        <div class="header-content">
+            <a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/cosa-f2c71.firebasestorage.app/o/yega%2Flogos%2Fyega_dark.png?alt=media&token=aeb732ea-7264-45c8-beeb-47645a3ff4ce" alt="YEGA Systems" class="logo"></a>
+            <nav>
+                <a href="/care-agencies">Care Agencies</a>
+                <a href="/sprint">Paid Funnel Sprint</a>
+                <a href="/calculator" class="active">Calculator</a>
+                <a href="https://usecosa.com" target="_blank">Cosa</a>
+                <a href="/#contact" class="cta-nav">Book a Call</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-    </header>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="/care-agencies" onclick="closeMobileMenu()">Care Agencies</a>
-        <a href="/sprint" onclick="closeMobileMenu()">Paid Funnel Sprint</a>
-        <a href="/calculator" onclick="closeMobileMenu()">Calculator</a>
-        <a href="https://usecosa.com" target="_blank" onclick="closeMobileMenu()">Cosa</a>
-        <a href="/#contact" class="mobile-cta" onclick="closeMobileMenu()">Book a Call</a>
     </div>
+</header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-eyebrow">Revenue Funnel Calculator</div>
-            <h1>See Exactly Where Your<br>Funnel Is <span class="gradient-text">Losing Money</span></h1>
-            <p class="hero-subtitle">Enter your real numbers. We'll show you where the leaks are, how much they're costing you, and how you compare to your industry.</p>
-            <p class="hero-note">Takes 60 seconds. No email required.</p>
-        </div>
-    </section>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/care-agencies" onclick="closeMobileMenu()">Care Agencies</a>
+    <a href="/sprint" onclick="closeMobileMenu()">Paid Funnel Sprint</a>
+    <a href="/calculator" onclick="closeMobileMenu()">Calculator</a>
+    <a href="https://usecosa.com" target="_blank" onclick="closeMobileMenu()">Cosa</a>
+    <a href="/#contact" class="mobile-cta" onclick="closeMobileMenu()">Book a Call</a>
+</div>
 
-    <!-- CALCULATOR -->
-    <section class="calculator-section">
-        <div class="container">
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-eyebrow">Revenue Funnel Calculator</div>
+        <h1>See Exactly Where Your<br>Funnel Is <span class="gradient-text">Losing Money</span></h1>
+        <p class="hero-subtitle">Enter your real numbers. We'll show you where the leaks are, how much they're costing you, and how you compare to your industry.</p>
+        <p class="hero-note">Takes 60 seconds. No email required.</p>
+    </div>
+</section>
 
-            <div class="calc-wrap">
+<!-- CALCULATOR -->
+<section class="calculator-section">
+    <div class="container">
+        <div class="calc-wrap">
 
-                <!-- Controls bar -->
-                <div class="controls-bar">
-                    <div class="controls-group">
-                        <div class="controls-label">Industry</div>
-                        <div class="industry-row" id="industryRow">
-                            <button class="ind-btn active" onclick="setIndustry('coaching', this)">Coaching</button>
-                            <button class="ind-btn" onclick="setIndustry('saas', this)">SaaS</button>
-                            <button class="ind-btn" onclick="setIndustry('agency', this)">Agency</button>
-                            <button class="ind-btn" onclick="setIndustry('care', this)">Care Services</button>
-                            <button class="ind-btn" onclick="setIndustry('property', this)">Property</button>
-                            <button class="ind-btn" onclick="setIndustry('ecomm', this)">E-commerce</button>
-                        </div>
+            <!-- Controls -->
+            <div class="controls-bar">
+                <div class="controls-group">
+                    <div class="controls-label">Industry</div>
+                    <div class="btn-row">
+                        <button class="ind-btn active" onclick="setIndustry('coaching',this)">Coaching</button>
+                        <button class="ind-btn" onclick="setIndustry('saas',this)">SaaS</button>
+                        <button class="ind-btn" onclick="setIndustry('agency',this)">Agency</button>
+                        <button class="ind-btn" onclick="setIndustry('care',this)">Care Services</button>
+                        <button class="ind-btn" onclick="setIndustry('property',this)">Property</button>
+                        <button class="ind-btn" onclick="setIndustry('ecomm',this)">E-commerce</button>
                     </div>
-                    <div class="controls-group">
-                        <div class="controls-label">Currency</div>
-                        <div class="currency-row">
-                            <button class="cur-btn active" onclick="setCurrency('GBP', '£', this)">£ GBP</button>
-                            <button class="cur-btn" onclick="setCurrency('USD', '$', this)">$ USD</button>
-                            <button class="cur-btn" onclick="setCurrency('EUR', '€', this)">€ EUR</button>
-                            <button class="cur-btn" onclick="setCurrency('NGN', '₦', this)">₦ NGN</button>
-                        </div>
+                </div>
+                <div class="controls-group">
+                    <div class="controls-label">Currency</div>
+                    <div class="btn-row">
+                        <button class="cur-btn active" onclick="setCurrency('£',this)">£ GBP</button>
+                        <button class="cur-btn" onclick="setCurrency('$',this)">$ USD</button>
+                        <button class="cur-btn" onclick="setCurrency('€',this)">€ EUR</button>
+                        <button class="cur-btn" onclick="setCurrency('₦',this)">₦ NGN</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inputs -->
+            <div class="inputs-section">
+                <div class="inputs-header">Your Numbers</div>
+
+                <!-- Property type toggle -->
+                <div class="prop-toggle" id="propToggle" style="display:none;">
+                    <div class="controls-label" style="margin-bottom:8px;">Sale Type</div>
+                    <div class="btn-row">
+                        <button class="prop-btn active" onclick="setPropType('offplan',this)">Off-Plan / New Build</button>
+                        <button class="prop-btn" onclick="setPropType('ready',this)">Ready Units / Show Home</button>
                     </div>
                 </div>
 
-                <!-- Inputs -->
-                <div class="inputs-section">
-                    <div class="inputs-header">Your Numbers</div>
+                <!-- Standard inputs -->
+                <div id="stdInputs">
                     <div class="input-grid">
                         <div class="input-block">
-                            <div class="input-label">Monthly Leads / Enquiries</div>
-                            <div class="input-row">
-                                <input class="input-field" id="leads" type="number" value="100" min="0" oninput="calc()">
-                            </div>
-                            <div id="hint-leads"></div>
+                            <label class="input-label">Monthly Leads / Enquiries</label>
+                            <div class="input-row"><input class="input-field" id="s_leads" type="number" value="100" min="0" oninput="calc()"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Lead → Booked Call %</div>
-                            <div class="input-row">
-                                <input class="input-field" id="bookRate" type="number" value="30" min="0" max="100" oninput="calc()">
-                                <span class="input-suffix">%</span>
-                            </div>
-                            <div id="hint-book"></div>
+                            <label class="input-label">Lead &#8594; Booked Call %</label>
+                            <div class="input-row"><input class="input-field" id="s_book" type="number" value="30" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_book"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Show-Up Rate %</div>
-                            <div class="input-row">
-                                <input class="input-field" id="showRate" type="number" value="70" min="0" max="100" oninput="calc()">
-                                <span class="input-suffix">%</span>
-                            </div>
-                            <div id="hint-show"></div>
+                            <label class="input-label">Show-Up Rate %</label>
+                            <div class="input-row"><input class="input-field" id="s_show" type="number" value="70" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_show"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Call → Close %</div>
-                            <div class="input-row">
-                                <input class="input-field" id="closeRate" type="number" value="25" min="0" max="100" oninput="calc()">
-                                <span class="input-suffix">%</span>
-                            </div>
-                            <div id="hint-close"></div>
+                            <label class="input-label">Call &#8594; Close %</label>
+                            <div class="input-row"><input class="input-field" id="s_close" type="number" value="25" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_close"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Average Deal Value</div>
-                            <div class="input-row">
-                                <span class="input-prefix" id="currencySymbol">£</span>
-                                <input class="input-field" id="adv" type="number" value="3000" min="0" oninput="calc()">
-                            </div>
+                            <label class="input-label">Average Deal Value</label>
+                            <div class="input-row"><span class="input-prefix" id="sym1">£</span><input class="input-field" id="s_adv" type="number" value="3000" min="0" oninput="calc()"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Monthly Ad Spend</div>
-                            <div class="input-row">
-                                <span class="input-prefix" id="currencySymbol2">£</span>
-                                <input class="input-field" id="adSpend" type="number" value="5000" min="0" oninput="calc()">
-                            </div>
-                            <div id="hint-adspend"></div>
+                            <label class="input-label">Monthly Ad Spend</label>
+                            <div class="input-row"><span class="input-prefix" id="sym2">£</span><input class="input-field" id="s_spend" type="number" value="5000" min="0" oninput="calc()"></div>
                         </div>
                         <div class="input-block">
-                            <div class="input-label">Cost per Lead (CPL) <span style="font-size:10px;color:#555;text-transform:none;letter-spacing:0;">optional</span></div>
-                            <div class="input-row">
-                                <span class="input-prefix" id="currencySymbol3">£</span>
-                                <input class="input-field" id="cpl" type="number" min="0" placeholder="—" oninput="calc()">
-                            </div>
-                            <div id="hint-cpl"></div>
+                            <label class="input-label">Cost per Lead <span class="opt">(optional)</span></label>
+                            <div class="input-row"><span class="input-prefix" id="sym3">£</span><input class="input-field" id="s_cpl" type="number" min="0" placeholder="&#8212;" oninput="calc()"></div>
+                            <div class="input-hint" id="h_cpl"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Diagnostic banner -->
-                <div id="diagnosticBanner" style="margin-bottom:28px;"></div>
-
-                <!-- Results -->
-                <div class="section-title" style="margin-bottom:16px;">Current Performance</div>
-                <div class="results-grid">
-                    <div class="metric-card">
-                        <div class="metric-label">Monthly Revenue</div>
-                        <div class="metric-value cyan" id="res-rev">—</div>
-                        <div class="metric-sub" id="res-rev-sub"></div>
+                <!-- Property inputs -->
+                <div id="propInputs" style="display:none;">
+                    <div class="input-grid">
+                        <div class="input-block">
+                            <label class="input-label">Monthly Leads / Enquiries</label>
+                            <div class="input-row"><input class="input-field" id="p_leads" type="number" value="80" min="0" oninput="calc()"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label" id="lbl_p1">Lead &#8594; Sales Call / Pitch %</label>
+                            <div class="input-row"><input class="input-field" id="p_s1" type="number" value="25" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_p1"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label" id="lbl_p2">Call &#8594; Site / Virtual Visit %</label>
+                            <div class="input-row"><input class="input-field" id="p_s2" type="number" value="45" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_p2"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label">Viewing &#8594; Reservation %</label>
+                            <div class="input-row"><input class="input-field" id="p_s3" type="number" value="22" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_p3"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label">Reservation &#8594; Exchange % <span class="opt">(optional)</span></label>
+                            <div class="input-row"><input class="input-field" id="p_s4" type="number" value="72" min="0" max="100" oninput="calc()"><span class="input-suffix">%</span></div>
+                            <div class="input-hint" id="h_p4"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label">Avg Unit Value / Commission</label>
+                            <div class="input-row"><span class="input-prefix" id="sym4">£</span><input class="input-field" id="p_adv" type="number" value="250000" min="0" oninput="calc()"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label">Monthly Ad Spend</label>
+                            <div class="input-row"><span class="input-prefix" id="sym5">£</span><input class="input-field" id="p_spend" type="number" value="8000" min="0" oninput="calc()"></div>
+                        </div>
+                        <div class="input-block">
+                            <label class="input-label">Cost per Lead <span class="opt">(optional)</span></label>
+                            <div class="input-row"><span class="input-prefix" id="sym6">£</span><input class="input-field" id="p_cpl" type="number" min="0" placeholder="&#8212;" oninput="calc()"></div>
+                            <div class="input-hint" id="h_pcpl"></div>
+                        </div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Clients Closed / Mo</div>
-                        <div class="metric-value" id="res-clients">—</div>
-                        <div class="metric-sub" id="res-clients-sub"></div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Revenue per Lead</div>
-                        <div class="metric-value" id="res-rpl">—</div>
-                        <div class="metric-sub" id="res-rpl-sub"></div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Cost per Acquisition</div>
-                        <div class="metric-value" id="res-cpa">—</div>
-                        <div class="metric-sub"></div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Return on Ad Spend</div>
-                        <div class="metric-value" id="res-roas">—</div>
-                        <div class="metric-sub" id="res-roas-sub"></div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Leads Lost / Mo</div>
-                        <div class="metric-value bad" id="res-wasted">—</div>
-                        <div class="metric-sub" id="res-wasted-sub"></div>
-                    </div>
-                </div>
-
-                <!-- Leak breakdown -->
-                <div class="leaks-header" style="margin-top:32px;">Where the Revenue Leaks</div>
-                <div id="leakRows"></div>
-
-                <!-- Opportunity -->
-                <div class="opportunity-box">
-                    <div class="opp-left">
-                        <div class="opp-label">Revenue Recovery Opportunity</div>
-                        <div class="opp-value" id="opp-value">—</div>
-                        <div class="opp-annual" id="opp-annual"></div>
-                    </div>
-                    <div class="opp-right">
-                        <p class="opp-desc" id="opp-desc"></p>
-                        <a href="/#contact" class="opp-cta">Book a Call — We'll Fix This →</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- BENCHMARKS -->
-    <section class="benchmarks-section">
-        <div class="container">
-            <div class="section-title">Industry Benchmarks</div>
-            <h2 style="margin-bottom:12px;">How You Compare to <span id="bm-industry-name">Coaching</span></h2>
-            <p style="font-size:17px; color:var(--yega-text); opacity:0.7; margin-bottom:40px; max-width:600px;">Benchmarks reflect typical performance for businesses in this category. Top performers consistently exceed these numbers by fixing the processes most businesses ignore.</p>
-            <div class="bm-table-wrap">
-                <div class="bm-table-header">
-                    <div class="bm-th">Metric</div>
-                    <div class="bm-th right">Industry Avg</div>
-                    <div class="bm-th right">Your Number</div>
-                    <div class="bm-th right">Status</div>
-                </div>
-                <div id="bmRows"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BOTTOM CTA -->
-    <section class="calc-cta-section">
-        <div class="container">
-            <div class="section-title" style="text-align:center;">Ready to Fix It?</div>
-            <h2>These Numbers Are Fixable.<br>In 30 Days.</h2>
-            <p>Book a free 15-minute call. We'll walk through your numbers, identify the biggest leak, and show you exactly what we'd do to fix it.</p>
-            <a href="/#contact" class="cta-primary">Book a Free 15-Min Call →</a>
-            <p class="cta-note">No pitch. No commitment. Just clarity.</p>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <p>© 2025 YEGA Systems. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="/">Home</a>
-                    <a href="/care-agencies">Care Agencies</a>
-                    <a href="/sprint">Paid Funnel Sprint</a>
-                    <a href="https://usecosa.com" target="_blank">Cosa — AI Sales Agents</a>
                 </div>
             </div>
+
+            <!-- Diagnostic -->
+            <div id="diagBanner"></div>
+
+            <!-- Results -->
+            <div class="section-title" style="margin-bottom:16px;">Current Performance</div>
+            <div class="results-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Monthly Revenue</div>
+                    <div class="metric-value cyan" id="r_rev">&#8212;</div>
+                    <div class="metric-sub" id="r_rev_sub"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label" id="lbl_clients">Clients Closed / Mo</div>
+                    <div class="metric-value" id="r_clients">&#8212;</div>
+                    <div class="metric-sub" id="r_clients_sub"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Revenue per Lead</div>
+                    <div class="metric-value" id="r_rpl">&#8212;</div>
+                    <div class="metric-sub">per lead that enters the funnel</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Cost per Acquisition</div>
+                    <div class="metric-value" id="r_cpa">&#8212;</div>
+                    <div class="metric-sub"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Return on Ad Spend</div>
+                    <div class="metric-value" id="r_roas">&#8212;</div>
+                    <div class="metric-sub" id="r_roas_sub"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Leads Lost / Mo</div>
+                    <div class="metric-value bad" id="r_lost">&#8212;</div>
+                    <div class="metric-sub" id="r_lost_sub"></div>
+                </div>
+            </div>
+
+            <!-- Leaks -->
+            <div class="leaks-header" style="margin-top:8px;">Where the Revenue Leaks</div>
+            <div id="leakRows"></div>
+
+            <!-- Opportunity -->
+            <div class="opp-box">
+                <div>
+                    <div class="opp-label">Revenue Recovery Opportunity</div>
+                    <div class="opp-value" id="opp_val">&#8212;</div>
+                    <div class="opp-annual" id="opp_annual"></div>
+                </div>
+                <div>
+                    <p class="opp-desc" id="opp_desc"></p>
+                    <a href="/#contact" class="opp-cta">Book a Call &#8212; We'll Fix This &#8594;</a>
+                </div>
+            </div>
+
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        const benchmarks = {
-            coaching: {
-                label: 'Coaching / Consulting',
-                bookRate: 35, showRate: 75, closeRate: 30, adv: 3000,
-                insight: 'Coaching funnels live or die at the follow-up stage. A 45%+ book rate is achievable with a 5-minute response window and a structured 4-touch sequence.'
-            },
-            saas: {
-                label: 'SaaS / Software',
-                bookRate: 28, showRate: 65, closeRate: 22, adv: 8000,
-                insight: 'Demo scheduling is where most SaaS funnels lose ground. Companies that qualify before booking a demo see 30%+ better show-up rates.'
-            },
-            agency: {
-                label: 'Agency / Services',
-                bookRate: 30, showRate: 72, closeRate: 28, adv: 5000,
-                insight: 'Agencies that respond within 5 minutes of an inbound enquiry are 9× more likely to book a call. Speed-to-lead is the primary lever.'
-            },
-            care: {
-                label: 'Care Services',
-                bookRate: 45, showRate: 68, closeRate: 55, adv: 1200,
-                insight: 'Care enquiries are high-intent. Families decide quickly when urgency is present — the agency that responds first and follows up consistently wins.'
-            },
-            property: {
-                label: 'Property / Real Estate',
-                bookRate: 25, showRate: 60, closeRate: 15, adv: 15000,
-                insight: 'Property has a long consideration cycle. Automated nurture sequences and regular touchpoints across 60–90 days significantly improve conversion.'
-            },
-            ecomm: {
-                label: 'E-commerce',
-                bookRate: 40, showRate: 80, closeRate: 35, adv: 250,
-                insight: 'Average cart abandonment is 70%. A 3-part email recovery sequence started within 1 hour of abandonment recovers 5–15% of lost revenue automatically.'
-            }
-        };
+<!-- BENCHMARKS -->
+<section class="benchmarks-section">
+    <div class="container">
+        <div class="section-title">Industry Benchmarks</div>
+        <h2 style="margin-bottom:12px;">How You Compare to <span id="bm_label">Coaching</span></h2>
+        <p class="bm-intro">Benchmarks reflect typical performance for businesses in this category. Top performers consistently exceed these by fixing the processes most businesses ignore.</p>
+        <div class="bm-table-wrap">
+            <div class="bm-table-head">
+                <div class="bm-th">Metric</div>
+                <div class="bm-th r">Benchmark</div>
+                <div class="bm-th r">Your Number</div>
+                <div class="bm-th r">Status</div>
+            </div>
+            <div id="bmRows"></div>
+        </div>
+    </div>
+</section>
 
-        let currentInd = 'coaching';
-        let currencySymbol = '£';
+<!-- BOTTOM CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="section-title" style="text-align:center;">Ready to Fix It?</div>
+        <h2>These Numbers Are Fixable.<br>In 30 Days.</h2>
+        <p>Book a free 15-minute call. We'll walk through your numbers, identify the biggest leak, and show you exactly what we'd do to fix it.</p>
+        <a href="/#contact" class="cta-primary">Book a Free 15-Min Call &#8594;</a>
+        <p class="cta-note">No pitch. No commitment. Just clarity.</p>
+    </div>
+</section>
 
-        function setCurrency(code, symbol, el) {
-            currencySymbol = symbol;
-            document.querySelectorAll('.cur-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('currencySymbol').textContent = symbol;
-            document.getElementById('currencySymbol2').textContent = symbol;
-            document.getElementById('currencySymbol3').textContent = symbol;
-            calc();
-        }
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <p>&#169; 2025 YEGA Systems. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/care-agencies">Care Agencies</a>
+                <a href="/sprint">Paid Funnel Sprint</a>
+                <a href="https://usecosa.com" target="_blank">Cosa &#8212; AI Sales Agents</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-        function setIndustry(key, el) {
-            currentInd = key;
-            document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            const bm = benchmarks[key];
-            document.getElementById('bookRate').value = bm.bookRate;
-            document.getElementById('showRate').value = bm.showRate;
-            document.getElementById('closeRate').value = bm.closeRate;
-            document.getElementById('adv').value = bm.adv;
-            calc();
-        }
+<script>
+var ind = 'coaching';
+var propType = 'offplan';
+var sym = '\u00a3';
 
-        function fmt(n) {
-            const abs = Math.abs(Math.round(n));
-            const str = abs.toLocaleString('en-GB');
-            return currencySymbol + str;
-        }
+var BM = {
+    coaching: { label:'Coaching / Consulting', book:35, show:75, close:30, adv:3000, cplBm:40, volLow:20, roasGood:3 },
+    saas:     { label:'SaaS / Software',        book:28, show:65, close:22, adv:8000, cplBm:80, volLow:20, roasGood:3 },
+    agency:   { label:'Agency / Services',      book:30, show:72, close:28, adv:5000, cplBm:60, volLow:20, roasGood:3 },
+    care:     { label:'Care Services',          book:45, show:68, close:55, adv:1200, cplBm:25, volLow:10, roasGood:3 },
+    ecomm:    { label:'E-commerce',             book:40, show:80, close:35, adv:250,  cplBm:8,  volLow:100,roasGood:4 }
+};
 
-        function calc() {
-            const leads = +document.getElementById('leads').value || 0;
-            const bookRate = Math.min(+document.getElementById('bookRate').value, 100) / 100 || 0;
-            const showRate = Math.min(+document.getElementById('showRate').value, 100) / 100 || 0;
-            const closeRate = Math.min(+document.getElementById('closeRate').value, 100) / 100 || 0;
-            const adv = +document.getElementById('adv').value || 0;
-            const adSpend = +document.getElementById('adSpend').value || 0;
-            const cplInput = +document.getElementById('cpl').value || 0;
-            const cpl = cplInput > 0 ? cplInput : (leads > 0 && adSpend > 0 ? adSpend / leads : 0);
+var PROP = {
+    offplan: { s1:25, s2:45, s3:22, s4:72, adv:250000, cplBm:80, lbl1:'Lead \u2192 Sales Call / Pitch %', lbl2:'Call \u2192 Site / Virtual Visit %' },
+    ready:   { s1:30, s2:55, s3:32, s4:80, adv:180000, cplBm:80, lbl1:'Lead \u2192 Viewing Appointment %', lbl2:'Appointment \u2192 Site Visit %' }
+};
 
-            const bm = benchmarks[currentInd];
+function f(n) { return sym + Math.abs(Math.round(n)).toLocaleString('en-GB'); }
+function p(n) { return Math.round(n) + '%'; }
 
-            const booked = leads * bookRate;
-            const showed = booked * showRate;
-            const closed = showed * closeRate;
-            const revenue = closed * adv;
-            const rpl = leads > 0 ? revenue / leads : 0;
-            const cpa = closed > 0 && adSpend > 0 ? adSpend / closed : 0;
-            const roas = adSpend > 0 ? revenue / adSpend : 0;
+function st(val, bm) {
+    var d = (val - bm) / (bm || 1);
+    return d >= 0.05 ? 'good' : d >= -0.15 ? 'warn' : 'bad';
+}
+var COL  = { good:'#00D9D9', warn:'#FFA03C', bad:'#DC5050' };
+var BG   = { good:'rgba(0,217,217,0.05)', warn:'rgba(255,160,60,0.06)', bad:'rgba(220,80,80,0.07)' };
+var ICO  = { good:'\u25b2', warn:'\u25c6', bad:'\u25bc' };
+var BCL  = { good:'sg', warn:'sw', bad:'sb' };
+var BLBL = { good:'On track', warn:'Below par', bad:'Revenue leak' };
 
-            const lostAtBook = leads * (1 - bookRate);
-            const lostAtShow = booked * (1 - showRate);
-            const lostAtClose = showed * (1 - closeRate);
+function setEl(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; }
+function setHtml(id, v) { var e = document.getElementById(id); if(e) e.innerHTML = v; }
 
-            const bmBooked = leads * (bm.bookRate / 100);
-            const bmShowed = bmBooked * (bm.showRate / 100);
-            const bmClosed = bmShowed * (bm.closeRate / 100);
-            const bmRevenue = bmClosed * adv;
-            const leakTotal = Math.max(bmRevenue - revenue, 0);
+function hint(val, bm, unit) {
+    var d = val - bm, sign = d >= 0 ? '+' : '';
+    var cls = d >= 2 ? 'hint-good' : d >= -5 ? 'hint-warn' : 'hint-bad';
+    return '<span class="hint-pill '+cls+'">'+sign+Math.round(d)+unit+' vs '+Math.round(bm)+unit+' benchmark</span>';
+}
 
-            // Populate results
-            document.getElementById('res-rev').textContent = fmt(revenue);
-            document.getElementById('res-rev-sub').textContent = 'per month';
-            document.getElementById('res-clients').textContent = Math.round(closed);
-            document.getElementById('res-clients-sub').textContent = Math.round(showed) + ' calls held';
-            document.getElementById('res-rpl').textContent = fmt(rpl);
-            document.getElementById('res-rpl-sub').textContent = 'per lead that enters the funnel';
+function leakRow(name, sub, yourVal, bmVal) {
+    var s = st(yourVal, bmVal);
+    return '<div class="leak-row" style="background:'+BG[s]+';border-color:'+COL[s]+'33;">'
+        +'<div><div class="leak-name">'+name+'</div><div class="leak-sub">'+sub+'</div></div>'
+        +'<div class="leak-right"><div class="leak-bm">Benchmark: '+Math.round(bmVal)+'%</div>'
+        +'<div class="leak-val" style="color:'+COL[s]+';">'+ICO[s]+' '+Math.round(yourVal)+'%</div></div></div>';
+}
 
-            if (adSpend > 0) {
-                document.getElementById('res-cpa').textContent = closed > 0 ? fmt(cpa) : 'N/A';
-                const roasEl = document.getElementById('res-roas');
-                roasEl.textContent = (Math.round(roas * 10) / 10) + 'x';
-                roasEl.className = 'metric-value ' + (roas >= 3 ? 'cyan' : roas >= 1.5 ? 'warn' : 'bad');
-                document.getElementById('res-roas-sub').textContent = roas >= 3 ? 'Healthy' : roas >= 1.5 ? 'Below potential' : 'Underperforming';
-            } else {
-                document.getElementById('res-cpa').textContent = 'N/A';
-                document.getElementById('res-roas').textContent = 'N/A';
-                document.getElementById('res-roas').className = 'metric-value';
-                document.getElementById('res-roas-sub').textContent = 'Enter ad spend to calculate';
-            }
+function bmRow(name, yourVal, bmVal, isCurr) {
+    var s = st(yourVal, bmVal);
+    var yd = isCurr ? f(yourVal) : p(yourVal);
+    var bd = isCurr ? f(bmVal)   : p(bmVal);
+    return '<div class="bm-row"><div class="bm-mname">'+name+'</div>'
+        +'<div class="bm-bval">'+bd+'</div>'
+        +'<div class="bm-yval" style="color:'+COL[s]+';">'+yd+'</div>'
+        +'<div class="bm-stat"><span class="sbadge '+BCL[s]+'">'+BLBL[s]+'</span></div></div>';
+}
 
-            document.getElementById('res-wasted').textContent = Math.round(lostAtBook + lostAtShow + lostAtClose);
-            document.getElementById('res-wasted-sub').textContent = 'leads that didn\'t convert';
+function diag(type, icon, verdict, headline, body, notes) {
+    var nn = notes.filter(function(n){return !!n;});
+    var nh = nn.length ? '<div class="diag-notes">'+nn.map(function(n){return '<div class="diag-note">'+n+'</div>';}).join('')+'</div>' : '';
+    setHtml('diagBanner',
+        '<div class="diag-banner '+type+'">'
+        +'<div class="diag-icon">'+icon+'</div>'
+        +'<div><div class="diag-verdict">'+verdict+'</div>'
+        +'<div class="diag-headline">'+headline+'</div>'
+        +'<div class="diag-body">'+body+'</div>'+nh+'</div></div>');
+}
 
-            // Leak rows
-            function getStatus(val, bm) {
-                const diff = (val - bm) / (bm || 1);
-                if (diff >= 0.05) return 'good';
-                if (diff >= -0.15) return 'warn';
-                return 'bad';
-            }
+function fillRoas(roas, spend, roasGood) {
+    if (!spend) {
+        setEl('r_roas','N/A');
+        document.getElementById('r_roas').className = 'metric-value';
+        setEl('r_roas_sub','Enter ad spend to calculate');
+    } else {
+        var v = Math.round(roas*10)/10;
+        setEl('r_roas', v+'x');
+        document.getElementById('r_roas').className = 'metric-value '+(roas>=roasGood?'cyan':roas>=roasGood/2?'warn':'bad');
+        setEl('r_roas_sub', roas>=roasGood?'Healthy':roas>=roasGood/2?'Below potential':'Underperforming');
+    }
+}
 
-            const leakData = [
-                {
-                    name: 'Lead → Booking drop-off',
-                    sub: Math.round(lostAtBook) + ' leads never booked a call this month',
-                    your: bookRate * 100,
-                    bmVal: bm.bookRate,
-                    status: getStatus(bookRate * 100, bm.bookRate),
-                    unit: '%'
-                },
-                {
-                    name: 'No-show / ghost rate',
-                    sub: Math.round(lostAtShow) + ' booked calls never happened',
-                    your: showRate * 100,
-                    bmVal: bm.showRate,
-                    status: getStatus(showRate * 100, bm.showRate),
-                    unit: '%'
-                },
-                {
-                    name: 'Call → Close failure',
-                    sub: Math.round(lostAtClose) + ' calls ended without a sale',
-                    your: closeRate * 100,
-                    bmVal: bm.closeRate,
-                    status: getStatus(closeRate * 100, bm.closeRate),
-                    unit: '%'
-                }
-            ];
+function fillOpp(leak, desc) {
+    if (leak > 0) {
+        setEl('opp_val', f(leak)+' / mo');
+        setEl('opp_annual', f(leak*12)+' annually');
+    } else {
+        setEl('opp_val','Above benchmark');
+        setEl('opp_annual','');
+    }
+    setEl('opp_desc', desc);
+}
 
-            const colMap = { good: '#00D9D9', warn: '#FFA03C', bad: '#DC5050' };
-            const bgMap = { good: 'rgba(0,217,217,0.05)', warn: 'rgba(255,160,60,0.06)', bad: 'rgba(220,80,80,0.07)' };
-            const iconMap = { good: '▲', warn: '◆', bad: '▼' };
+function diagStd(bm, book, show, close, leads, spend, cpl) {
+    var bOk = book  >= bm.book  * 0.85;
+    var sOk = show  >= bm.show  * 0.85;
+    var cOk = close >= bm.close * 0.85;
+    var cvOk = bOk && sOk && cOk;
+    var vLow = leads < bm.volLow;
+    var cHigh = cpl > 0 && cpl > bm.cplBm * 1.5;
 
-            document.getElementById('leakRows').innerHTML = leakData.map(l => `
-                <div class="leak-row" style="background:${bgMap[l.status]}; border-color:${colMap[l.status]}33;">
-                    <div class="leak-left">
-                        <div class="leak-name">${l.name}</div>
-                        <div class="leak-sub">${l.sub}</div>
-                    </div>
-                    <div class="leak-right">
-                        <div class="leak-bm">Benchmark: ${Math.round(l.bmVal)}${l.unit}</div>
-                        <div class="leak-yours" style="color:${colMap[l.status]};">${iconMap[l.status]} ${Math.round(l.your)}${l.unit}</div>
-                    </div>
-                </div>
-            `).join('');
+    if (!cvOk && vLow) {
+        diag('diag-mixed','&#9660;','Dual constraint: volume + conversion',
+            'Low lead volume and conversion issues \u2014 fix conversion first.',
+            'Both lead volume and conversion are below where they need to be. Fix the funnel before scaling spend \u2014 scaling a leaky funnel burns budget.',
+            [!bOk?'Book rate is '+p(book)+' vs '+p(bm.book)+' benchmark \u2014 the first leak to fix.':null,
+             !sOk?'Show-up rate is '+p(show)+' vs '+p(bm.show)+' benchmark.':null,
+             !cOk?'Close rate is '+p(close)+' vs '+p(bm.close)+' benchmark.':null,
+             'Once conversion is solid, increasing volume compounds directly into revenue.']);
+    } else if (!cvOk) {
+        diag('diag-conversion','&#9660;','Primary constraint: conversion',
+            'Your funnel is leaking revenue at the conversion stage.',
+            'You have enough leads \u2014 the problem is what happens after they land. '
+            +(!bOk?'Leads aren\'t booking calls. ':'')
+            +(!sOk?'Booked calls aren\'t showing up. ':'')
+            +(!cOk?'Calls aren\'t converting to clients. ':'')
+            +'More ad spend won\'t fix this.',
+            [!bOk?'Book rate '+p(book)+' \u2014 benchmark '+p(bm.book)+'. Faster follow-up closes this gap.':null,
+             !sOk?'Show-up rate '+p(show)+' \u2014 benchmark '+p(bm.show)+'. Reminder sequences reduce no-shows significantly.':null,
+             !cOk?'Close rate '+p(close)+' \u2014 benchmark '+p(bm.close)+'. Better pre-qualification means every call is higher intent.':null]);
+    } else if (vLow) {
+        diag('diag-volume','&#9670;','Primary constraint: lead volume',
+            'Your funnel mechanics are working. You need more leads.',
+            'Your conversion rates are at or near benchmark \u2014 the process is sound. With '+leads+' leads per month, revenue is capped by volume, not conversion.',
+            ['The right lever is increasing qualified lead volume \u2014 through paid traffic, outbound, or organic.',
+             spend>0?'Your current spend is '+f(spend)+'/mo. If CPL is healthy, increasing budget is likely the highest-ROI move.':'Consider what doubling your monthly leads would cost at your current CPL.']);
+    } else if (cHigh) {
+        diag('diag-spend','&#9670;','Secondary signal: ad efficiency',
+            'Your funnel works \u2014 but your cost per lead is high.',
+            'Your CPL of '+f(cpl)+' is notably above the typical '+f(bm.cplBm)+' benchmark for this industry. This points to an upstream issue \u2014 ad creative, targeting, or audience \u2014 rather than a funnel problem.',
+            ['This is outside YEGA\'s core scope, but worth flagging before scaling spend.',
+             'A media buyer or creative audit would address this more effectively than process changes.']);
+    } else {
+        diag('diag-healthy','&#10003;','No critical constraint detected',
+            'Your funnel is performing at or above benchmark.',
+            'Conversion rates are healthy across all three stages. The opportunity is scaling \u2014 more qualified leads at the same conversion rates compounds directly into revenue.',
+            ['The highest-leverage move is increasing qualified traffic, not further optimising conversion.']);
+    }
+}
 
-            // ── CONSTRAINT DETECTION ──
-            const bookOk  = bookRate * 100  >= bm.bookRate  * 0.85;
-            const showOk  = showRate * 100  >= bm.showRate  * 0.85;
-            const closeOk = closeRate * 100 >= bm.closeRate * 0.85;
-            const conversionHealthy = bookOk && showOk && closeOk;
+function diagProp(bm, s1, s2, s3, s4, leads, spend, cpl, isOffplan) {
+    var s1Ok = s1 >= bm.s1 * 0.85, s2Ok = s2 >= bm.s2 * 0.85;
+    var s3Ok = s3 >= bm.s3 * 0.85, s4Ok = s4 >= bm.s4 * 0.85;
+    var cvOk = s1Ok && s2Ok && s3Ok && s4Ok;
+    var vLow = leads < 15;
+    var cHigh = cpl > 0 && cpl > bm.cplBm * 1.5;
 
-            // CPL benchmarks by industry (rough paid social averages)
-            const cplBenchmarks = { coaching: 40, saas: 80, agency: 60, care: 25, property: 50, ecomm: 8 };
-            const cplBm = cplBenchmarks[currentInd];
-            const cplHigh = cpl > 0 && cplBm > 0 && cpl > cplBm * 1.5;
-            const cplVeryHigh = cpl > 0 && cplBm > 0 && cpl > cplBm * 2.5;
+    if (!cvOk && vLow) {
+        diag('diag-mixed','&#9660;','Dual constraint: volume + conversion',
+            'Low lead volume and conversion drop-offs \u2014 fix conversion first.',
+            'Both problems are present. Fix the funnel before scaling spend.',
+            [!s3Ok?'Reservation rate is the critical fix \u2014 that\'s where the revenue decision is made.':null,
+             'Once conversion is stable, increasing volume will have a multiplier effect.']);
+    } else if (!cvOk) {
+        diag('diag-conversion','&#9660;','Primary constraint: conversion',
+            'Leads are entering the funnel but dropping off before reservation.',
+            (!s1Ok?(isOffplan?'Leads aren\'t booking pitch calls. ':'Leads aren\'t booking viewings. '):'')
+            +(!s2Ok?(isOffplan?'Pitch calls aren\'t progressing to site visits. ':'Viewing appointments aren\'t completing. '):'')
+            +(!s3Ok?'Visits aren\'t converting to reservations \u2014 the pitch experience and urgency creation are the key levers here. ':'')
+            +(!s4Ok?'Reservations are falling through before exchange. Nurture and solicitor management during this window are critical. ':'')
+            +'More ad spend won\'t fix this.',
+            [!s1Ok?'Speed of first response and follow-up quality drives stage 1.':null,
+             !s3Ok?'Reservation rate is the developer\'s key close moment \u2014 pricing, urgency, and the on-site experience all converge here.':null,
+             !s4Ok?'Fall-through at exchange is common off-plan. Regular communication and solicitor coordination reduces drop-off.':null]);
+    } else if (vLow) {
+        diag('diag-volume','&#9670;','Primary constraint: lead volume',
+            'Your conversion stages are healthy. You need more qualified leads.',
+            'With '+leads+' leads per month, revenue is capped by volume rather than conversion. Your funnel mechanics are working.',
+            ['Consider increasing ad spend if CPL is healthy, or diversifying via broker partnerships and referral programmes.',
+             'Scaling traffic into a functioning funnel compounds directly into revenue.']);
+    } else if (cHigh) {
+        diag('diag-spend','&#9670;','Secondary signal: ad efficiency',
+            'Conversion looks healthy but your cost per lead is high.',
+            'Your CPL of '+f(cpl)+' is above typical developer benchmarks. This is an upstream issue \u2014 targeting or creative \u2014 rather than a funnel problem.',
+            ['Worth reviewing ad creative and audience before increasing spend.',
+             'Your funnel will convert well once CPL comes down \u2014 the process is sound.']);
+    } else {
+        diag('diag-healthy','&#10003;','No critical constraint detected',
+            'Your developer funnel is performing at or above benchmark.',
+            'All four stages are at or near indicative benchmarks. The opportunity is scaling qualified lead volume.',
+            ['Consider what doubling your monthly enquiry volume would do to revenue at current conversion rates.']);
+    }
+}
 
-            // Volume: fewer than ~20 leads is a traffic problem for most high-ticket offers
-            const volumeLow = leads < 20 && adv >= 1000;
-            const volumeVeryLow = leads < 8 && adv >= 1000;
+function calc() {
+    if (ind === 'property') { calcProp(); } else { calcStd(); }
+}
 
-            // Determine primary constraint
-            let constraint = 'conversion'; // default
-            if (conversionHealthy && volumeLow) constraint = 'volume';
-            else if (!conversionHealthy && volumeLow) constraint = 'mixed';
-            else if (conversionHealthy && !volumeLow && cplHigh) constraint = 'spend';
-            else if (conversionHealthy && !volumeLow && !cplHigh) constraint = 'healthy';
+function calcStd() {
+    var bm    = BM[ind];
+    var leads = +document.getElementById('s_leads').value  || 0;
+    var book  = Math.min(+document.getElementById('s_book').value,  100) / 100 || 0;
+    var show  = Math.min(+document.getElementById('s_show').value,  100) / 100 || 0;
+    var close = Math.min(+document.getElementById('s_close').value, 100) / 100 || 0;
+    var adv   = +document.getElementById('s_adv').value   || 0;
+    var spend = +document.getElementById('s_spend').value || 0;
+    var cplIn = +document.getElementById('s_cpl').value   || 0;
+    var cpl   = cplIn > 0 ? cplIn : (leads > 0 && spend > 0 ? spend / leads : 0);
 
-            // Build diagnostic config
-            const diagConfigs = {
-                conversion: {
-                    type: 'diag-conversion',
-                    icon: '▼',
-                    verdict: 'Primary constraint: conversion',
-                    headline: 'Your funnel is leaking revenue at the conversion stage.',
-                    body: `You have enough leads coming in — the problem is what happens after they land. ${!bookOk ? 'Leads aren\'t booking calls. ' : ''}${!showOk ? 'Booked calls aren\'t showing up. ' : ''}${!closeOk ? 'Calls aren\'t converting to clients. ' : ''}This is a process problem, not a traffic problem. More ad spend won\'t fix it.`,
-                    notes: [
-                        !bookOk ? `Your book rate is ${Math.round(bookRate*100)}% — benchmark is ${bm.bookRate}%. A faster follow-up sequence would close this gap.` : null,
-                        !showOk ? `Your show-up rate is ${Math.round(showRate*100)}% — benchmark is ${bm.showRate}%. Reminder sequences and pre-call confirmation reduce no-shows significantly.` : null,
-                        !closeOk ? `Your close rate is ${Math.round(closeRate*100)}% — benchmark is ${bm.closeRate}%. Better pre-qualification before booking means every call is higher intent.` : null,
-                    ].filter(Boolean)
-                },
-                volume: {
-                    type: 'diag-volume',
-                    icon: '◆',
-                    verdict: 'Primary constraint: lead volume',
-                    headline: 'Your funnel mechanics are working. You need more leads.',
-                    body: `Your book rate, show-up rate, and close rate are all at or near benchmark — the process is sound. With only ${leads} leads per month and an average deal value of ${fmt(adv)}, revenue is capped by volume, not conversion. Fixing the funnel further won\'t move the needle here.`,
-                    notes: [
-                        'The right lever is increasing qualified lead volume — through paid traffic, outbound, or organic.',
-                        adSpend > 0 ? `Your current ad spend is ${fmt(adSpend)}/mo. If CPL is healthy, increasing budget is likely the highest-ROI move.` : 'Consider what it would cost to double your monthly lead volume at your current CPL.'
-                    ]
-                },
-                mixed: {
-                    type: 'diag-mixed',
-                    icon: '▼',
-                    verdict: 'Dual constraint: volume + conversion',
-                    headline: 'Low lead volume and conversion issues — fix conversion first.',
-                    body: `You have two problems: not enough leads coming in, and the leads that do arrive aren\'t converting well. The right order is to fix conversion first. Scaling traffic into a leaky funnel burns budget without proportional return.`,
-                    notes: [
-                        !bookOk ? `Book rate is ${Math.round(bookRate*100)}% vs ${bm.bookRate}% benchmark — the first leak to fix.` : null,
-                        !showOk ? `Show-up rate is ${Math.round(showRate*100)}% vs ${bm.showRate}% benchmark.` : null,
-                        !closeOk ? `Close rate is ${Math.round(closeRate*100)}% vs ${bm.closeRate}% benchmark.` : null,
-                        'Once conversion is solid, increasing volume will have a compounding effect.'
-                    ].filter(Boolean)
-                },
-                spend: {
-                    type: 'diag-spend',
-                    icon: '◆',
-                    verdict: 'Secondary signal: ad efficiency',
-                    headline: 'Your funnel works — but your ad spend is underperforming.',
-                    body: `Your conversion mechanics are healthy, but your cost per lead of ${fmt(cpl)} is ${cplVeryHigh ? 'significantly' : 'notably'} above the ${cplBm ? fmt(cplBm) : 'typical'} benchmark for ${bm.label}. This points to an upstream problem — ad creative, targeting, or audience — rather than a funnel issue.`,
-                    notes: [
-                        'This is outside YEGA\'s core scope — but worth flagging before scaling spend.',
-                        'A media buyer or creative audit would address this more effectively than process changes.',
-                        'If CPL comes down to benchmark, your current funnel would generate meaningfully more revenue without any conversion work.'
-                    ]
-                },
-                healthy: {
-                    type: 'diag-healthy',
-                    icon: '✓',
-                    verdict: 'No critical constraint detected',
-                    headline: 'Your funnel is performing at or above benchmark.',
-                    body: `Conversion rates are healthy across all three stages. The opportunity here is scaling — more qualified lead volume at the same conversion rates compounds directly into revenue.`,
-                    notes: [
-                        'The highest-leverage move is usually increasing qualified traffic, not further optimising conversion.',
-                        'Consider what a 2x in monthly leads would do to your revenue at current conversion rates.'
-                    ]
-                }
-            };
+    var booked  = leads * book;
+    var showed  = booked * show;
+    var closed  = showed * close;
+    var rev     = closed * adv;
+    var rpl     = leads > 0 ? rev / leads : 0;
+    var cpa     = closed > 0 && spend > 0 ? spend / closed : 0;
+    var roas    = spend > 0 ? rev / spend : 0;
+    var lBook   = leads  * (1 - book);
+    var lShow   = booked * (1 - show);
+    var lClose  = showed * (1 - close);
+    var bmRev   = leads * (bm.book/100) * (bm.show/100) * (bm.close/100) * adv;
+    var leak    = Math.max(bmRev - rev, 0);
+    var bmRpl   = (bm.book/100) * (bm.show/100) * (bm.close/100) * adv;
 
-            const diag = diagConfigs[constraint];
-            document.getElementById('diagnosticBanner').innerHTML = `
-                <div class="diag-banner ${diag.type}">
-                    <div class="diag-icon">${diag.icon}</div>
-                    <div>
-                        <div class="diag-verdict">${diag.verdict}</div>
-                        <div class="diag-headline">${diag.headline}</div>
-                        <div class="diag-body">${diag.body}</div>
-                        ${diag.notes.length ? `<div class="diag-notes">${diag.notes.map(n => `<div class="diag-note">${n}</div>`).join('')}</div>` : ''}
-                    </div>
-                </div>
-            `;
+    setEl('r_rev', f(rev)); setEl('r_rev_sub','per month');
+    setEl('lbl_clients','Clients Closed / Mo');
+    setEl('r_clients', Math.round(closed));
+    setEl('r_clients_sub', Math.round(showed)+' calls held');
+    setEl('r_rpl', f(rpl));
+    setEl('r_cpa', spend > 0 && closed > 0 ? f(cpa) : 'N/A');
+    fillRoas(roas, spend, bm.roasGood);
+    setEl('r_lost', Math.round(lBook+lShow+lClose));
+    setEl('r_lost_sub','leads that didn\'t convert');
 
-            // CPL hint
-            if (cpl > 0 && cplBm > 0) {
-                const cplDiff = Math.round(((cpl - cplBm) / cplBm) * 100);
-                const cplCls = cplDiff <= 10 ? 'bm-good' : cplDiff <= 50 ? 'bm-warn' : 'bm-bad';
-                const sign = cplDiff >= 0 ? '+' : '';
-                document.getElementById('hint-cpl').innerHTML = `<span class="input-benchmark ${cplCls}">${sign}${cplDiff}% vs ${fmt(cplBm)} benchmark</span>`;
-            } else {
-                document.getElementById('hint-cpl').innerHTML = '';
-            }
+    setHtml('leakRows',
+        leakRow('Lead \u2192 Booking drop-off', Math.round(lBook)+' leads never booked a call', book*100, bm.book)
+        +leakRow('No-show / ghost rate', Math.round(lShow)+' booked calls never happened', show*100, bm.show)
+        +leakRow('Call \u2192 Close failure', Math.round(lClose)+' calls ended without a sale', close*100, bm.close));
 
-            // Opportunity box
-            const oppEl = document.getElementById('opp-value');
-            const oppAnnual = document.getElementById('opp-annual');
-            const oppDesc = document.getElementById('opp-desc');
+    fillOpp(leak, leak>0
+        ? 'If your funnel matched '+bm.label+' benchmarks, you\'d generate an extra '+f(leak)+' every month. That\'s the revenue sitting inside your existing traffic \u2014 you don\'t need more leads.'
+        : 'Your funnel is outperforming industry benchmarks. Let\'s identify where you can scale without adding costs.');
 
-            if (leakTotal > 0) {
-                oppEl.textContent = fmt(leakTotal) + ' / mo';
-                oppAnnual.textContent = fmt(leakTotal * 12) + ' annually';
-                oppDesc.textContent = `If your funnel matched ${bm.label} benchmarks, you'd generate an extra ${fmt(leakTotal)} every month. That's the revenue sitting inside your existing traffic — you don't need more leads.`;
-            } else {
-                oppEl.textContent = 'Above benchmark';
-                oppAnnual.textContent = '';
-                oppDesc.textContent = 'Your funnel is outperforming industry benchmarks. Let\'s identify where you can scale without adding costs.';
-            }
+    setEl('bm_label', bm.label);
+    setHtml('bmRows',
+        bmRow('Lead \u2192 Book Rate',   book*100,  bm.book,  false)
+        +bmRow('Show-Up Rate',           show*100,  bm.show,  false)
+        +bmRow('Close Rate',             close*100, bm.close, false)
+        +bmRow('Revenue per Lead',       rpl,       bmRpl,    true)
+        +bmRow('Monthly Revenue (at benchmark)', rev, bmRev,  true));
 
-            // Update benchmark industry name
-            document.getElementById('bm-industry-name').textContent = bm.label;
+    setHtml('h_book',  hint(book*100,  bm.book,  '%'));
+    setHtml('h_show',  hint(show*100,  bm.show,  '%'));
+    setHtml('h_close', hint(close*100, bm.close, '%'));
+    setHtml('h_cpl',   cpl > 0 ? hint(cpl, bm.cplBm, '') : '');
 
-            // Benchmark table
-            const bmMetrics = [
-                { name: 'Lead → Book Rate', your: bookRate * 100, bm: bm.bookRate, unit: '%', insight: 'Driven by response speed and follow-up sequence quality.' },
-                { name: 'Show-Up Rate', your: showRate * 100, bm: bm.showRate, unit: '%', insight: 'Improved by confirmation sequences and pre-call reminders.' },
-                { name: 'Close Rate', your: closeRate * 100, bm: bm.closeRate, unit: '%', insight: 'Top performers qualify before booking, so every call is high-intent.' },
-                { name: 'Revenue per Lead', your: rpl, bm: (bm.bookRate/100) * (bm.showRate/100) * (bm.closeRate/100) * adv, unit: '', currency: true, insight: 'The compound result of fixing all three stages above.' },
-                { name: 'Monthly Revenue (at benchmark)', your: revenue, bm: bmRevenue, unit: '', currency: true, insight: 'What your current lead volume would generate at industry benchmark conversion rates.' }
-            ];
+    diagStd(bm, book*100, show*100, close*100, leads, spend, cpl);
+}
 
-            document.getElementById('bmRows').innerHTML = bmMetrics.map(m => {
-                const s = getStatus(m.your, m.bm);
-                const yourDisplay = m.currency ? fmt(m.your) : Math.round(m.your) + m.unit;
-                const bmDisplay = m.currency ? fmt(m.bm) : Math.round(m.bm) + m.unit;
-                const badgeClass = { good: 'status-good', warn: 'status-warn', bad: 'status-bad' }[s];
-                const badgeLabel = { good: 'On track', warn: 'Below par', bad: 'Revenue leak' }[s];
-                return `<div class="bm-row-item">
-                    <div class="bm-metric-name">${m.name}</div>
-                    <div class="bm-industry-val">${bmDisplay}</div>
-                    <div class="bm-your-val" style="color:${ s === 'good' ? 'var(--yega-cyan)' : s === 'warn' ? '#FFA03C' : '#DC5050'};">${yourDisplay}</div>
-                    <div class="bm-status"><span class="status-badge ${badgeClass}">${badgeLabel}</span></div>
-                </div>`;
-            }).join('');
+function calcProp() {
+    var bm    = PROP[propType];
+    var leads = +document.getElementById('p_leads').value  || 0;
+    var s1    = Math.min(+document.getElementById('p_s1').value,100)/100||0;
+    var s2    = Math.min(+document.getElementById('p_s2').value,100)/100||0;
+    var s3    = Math.min(+document.getElementById('p_s3').value,100)/100||0;
+    var s4    = Math.min(+document.getElementById('p_s4').value,100)/100||0;
+    var adv   = +document.getElementById('p_adv').value   || 0;
+    var spend = +document.getElementById('p_spend').value || 0;
+    var cplIn = +document.getElementById('p_cpl').value   || 0;
+    var cpl   = cplIn > 0 ? cplIn : (leads > 0 && spend > 0 ? spend / leads : 0);
 
-            // Hints under inputs
-            function hint(val, bm, id, unit) {
-                const el = document.getElementById(id);
-                if (!el) return;
-                const diff = val - bm;
-                const sign = diff >= 0 ? '+' : '';
-                const cls = diff >= 2 ? 'bm-good' : diff >= -5 ? 'bm-warn' : 'bm-bad';
-                el.innerHTML = `<span class="input-benchmark ${cls}">${sign}${Math.round(diff)}${unit} vs ${Math.round(bm)}${unit} benchmark</span>`;
-            }
-            hint(bookRate * 100, bm.bookRate, 'hint-book', '%');
-            hint(showRate * 100, bm.showRate, 'hint-show', '%');
-            hint(closeRate * 100, bm.closeRate, 'hint-close', '%');
-        }
+    var aS1  = leads * s1;
+    var aS2  = aS1   * s2;
+    var res  = aS2   * s3;
+    var exch = res   * s4;
+    var rev  = exch  * adv;
+    var rpl  = leads > 0 ? rev / leads : 0;
+    var cpa  = exch > 0 && spend > 0 ? spend / exch : 0;
+    var roas = spend > 0 ? rev / spend : 0;
+    var lS1  = leads * (1-s1);
+    var lS2  = aS1   * (1-s2);
+    var lS3  = aS2   * (1-s3);
+    var lS4  = res   * (1-s4);
+    var bmEx = leads * (bm.s1/100)*(bm.s2/100)*(bm.s3/100)*(bm.s4/100);
+    var bmRev= bmEx * adv;
+    var leak = Math.max(bmRev - rev, 0);
+    var bmRpl= (bm.s1/100)*(bm.s2/100)*(bm.s3/100)*(bm.s4/100)*adv;
+    var isOp = propType === 'offplan';
 
-        // Init
-        calc();
+    setEl('r_rev', f(rev)); setEl('r_rev_sub','projected monthly revenue');
+    setEl('lbl_clients','Units Exchanged / Mo');
+    setEl('r_clients', Math.round(exch));
+    setEl('r_clients_sub', Math.round(res)+' reservations made');
+    setEl('r_rpl', f(rpl));
+    setEl('r_cpa', spend > 0 && exch > 0 ? f(cpa) : 'N/A');
+    fillRoas(roas, spend, 4);
+    setEl('r_lost', Math.round(lS1+lS2+lS3+lS4));
+    setEl('r_lost_sub','leads lost across all stages');
 
-        // Mobile nav
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('open');
-            mobileMenu.classList.toggle('open');
-        });
-        function closeMobileMenu() {
-            hamburger.classList.remove('open');
-            mobileMenu.classList.remove('open');
-        }
-    </script>
+    var s1lbl = isOp ? 'Lead \u2192 Pitch Call drop-off'       : 'Lead \u2192 Viewing Appt drop-off';
+    var s2lbl = isOp ? 'Call \u2192 Site / Virtual Visit'       : 'Appointment \u2192 Site Visit';
+    var s1sub = isOp ? Math.round(lS1)+' leads never booked a pitch call' : Math.round(lS1)+' leads never booked a viewing';
+    var s2sub = isOp ? Math.round(lS2)+' pitch calls didn\'t lead to a visit' : Math.round(lS2)+' appointments didn\'t result in a site visit';
 
+    setHtml('leakRows',
+        leakRow(s1lbl, s1sub, s1*100, bm.s1)
+        +leakRow(s2lbl, s2sub, s2*100, bm.s2)
+        +leakRow('Viewing \u2192 Reservation drop-off', Math.round(lS3)+' visits didn\'t result in a reservation', s3*100, bm.s3)
+        +leakRow('Reservation \u2192 Exchange fall-through', Math.round(lS4)+' reservations didn\'t reach exchange', s4*100, bm.s4)
+        +'<p class="bm-note">\u26a0 Indicative benchmarks. Developer rates vary by price point, market, and sales channel.</p>');
+
+    fillOpp(leak, leak>0
+        ? 'If your funnel matched indicative developer benchmarks, you\'d generate an extra '+f(leak)+' every month from your current lead volume \u2014 before spending another penny on ads.'
+        : 'Your funnel is performing at or above indicative benchmarks. The opportunity is scaling qualified lead volume.');
+
+    var bmLbl = isOp ? 'Off-Plan Developer (indicative)' : 'Ready Units Developer (indicative)';
+    setEl('bm_label', bmLbl);
+    var p1txt = document.getElementById('lbl_p1').textContent;
+    var p2txt = document.getElementById('lbl_p2').textContent;
+    setHtml('bmRows',
+        bmRow(p1txt,                    s1*100, bm.s1, false)
+        +bmRow(p2txt,                   s2*100, bm.s2, false)
+        +bmRow('Viewing \u2192 Reservation',    s3*100, bm.s3, false)
+        +bmRow('Reservation \u2192 Exchange',   s4*100, bm.s4, false)
+        +bmRow('Revenue per Lead',      rpl,    bmRpl, true));
+
+    setHtml('h_p1',  hint(s1*100, bm.s1, '%'));
+    setHtml('h_p2',  hint(s2*100, bm.s2, '%'));
+    setHtml('h_p3',  hint(s3*100, bm.s3, '%'));
+    setHtml('h_p4',  hint(s4*100, bm.s4, '%'));
+    setHtml('h_pcpl', cpl > 0 ? hint(cpl, bm.cplBm, '') : '');
+
+    diagProp(bm, s1*100, s2*100, s3*100, s4*100, leads, spend, cpl, isOp);
+}
+
+function setIndustry(key, el) {
+    ind = key;
+    document.querySelectorAll('.ind-btn').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    var isProp = key === 'property';
+    document.getElementById('propToggle').style.display  = isProp ? 'block' : 'none';
+    document.getElementById('stdInputs').style.display   = isProp ? 'none'  : 'block';
+    document.getElementById('propInputs').style.display  = isProp ? 'block' : 'none';
+    if (!isProp) {
+        var bm = BM[key];
+        document.getElementById('s_book').value  = bm.book;
+        document.getElementById('s_show').value  = bm.show;
+        document.getElementById('s_close').value = bm.close;
+        document.getElementById('s_adv').value   = bm.adv;
+    } else {
+        loadPropDef(propType);
+    }
+    calc();
+}
+
+function setPropType(type, el) {
+    propType = type;
+    document.querySelectorAll('.prop-btn').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    loadPropDef(type);
+    calc();
+}
+
+function loadPropDef(type) {
+    var bm = PROP[type];
+    document.getElementById('p_s1').value  = bm.s1;
+    document.getElementById('p_s2').value  = bm.s2;
+    document.getElementById('p_s3').value  = bm.s3;
+    document.getElementById('p_s4').value  = bm.s4;
+    document.getElementById('p_adv').value = bm.adv;
+    document.getElementById('lbl_p1').textContent = bm.lbl1;
+    document.getElementById('lbl_p2').textContent = bm.lbl2;
+}
+
+function setCurrency(symbol, el) {
+    sym = symbol;
+    document.querySelectorAll('.cur-btn').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    ['sym1','sym2','sym3','sym4','sym5','sym6'].forEach(function(id){
+        var e = document.getElementById(id); if(e) e.textContent = symbol;
+    });
+    calc();
+}
+
+var hamburger  = document.getElementById('hamburger');
+var mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', function(){
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+});
+function closeMobileMenu(){
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+}
+
+calc();
+</script>
 </body>
 </html>
