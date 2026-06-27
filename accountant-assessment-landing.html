@@ -695,9 +695,35 @@ footer{border-top:1px solid var(--border);padding:28px 0;background:var(--dark-2
 </footer>
 
 <script>
-function submitForm(){
-  document.getElementById("mainForm").style.display="none";
-  document.getElementById("mainSuccess").style.display="block";
+async function submitForm(){
+  var firstName = document.querySelector('input[data-field="firstName"]').value.trim();
+  var lastName  = document.querySelector('input[data-field="lastName"]').value.trim();
+  var firmName  = document.querySelector('input[data-field="firmName"]').value.trim();
+  var email     = document.querySelector('input[data-field="email"]').value.trim();
+  var phone     = document.querySelector('input[data-field="phone"]').value.trim();
+  var revenue   = document.querySelector('select[data-field="revenue"]').value;
+
+  if(!firstName || !lastName || !email){
+    alert("Please fill in your first name, last name and email.");
+    return;
+  }
+
+  var btn = document.querySelector('#mainForm .btn');
+  btn.disabled = true;
+  btn.textContent = "Submitting…";
+
+  try {
+    var res = await fetch('/api/submit-assessment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
+    });
+    if(!res.ok) throw new Error('Server error');
+  } catch(e) {
+    console.warn('Email notification failed, proceeding anyway:', e);
+  }
+
+  window.location.href = 'https://calendly.com/dapotejuoso/30min';
 }
 function toggleFaq(btn){
   var item=btn.parentElement;
