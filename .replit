@@ -55,5 +55,6 @@ localPort = 8000
 externalPort = 8000
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 publicDir = "."
+run = ["node", "server.js"]

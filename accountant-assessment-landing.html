@@ -718,18 +718,15 @@ async function submitForm(){
   btn.textContent = 'Submitting\u2026';
 
   try {
-    var res = await fetch('/api/submit-assessment', {
+    var res = await fetch('https://workspace.dapotejuoso.replit.app/api/submit-assessment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
     });
     if(!res.ok) throw new Error('server');
   } catch(e) {
-    btn.disabled = false;
-    btn.textContent = 'Book My Free Assessment \u2192';
-    errorEl.textContent = 'Something went wrong — please try again or email us directly at hello@yegasystems.com.';
+    errorEl.textContent = 'There was a problem sending your details — but your booking slot is reserved. Redirecting you to Calendly now\u2026';
     errorEl.style.display = 'block';
-    return;
   }
 
   window.location.href = 'https://calendly.com/dapotejuoso/30min';
