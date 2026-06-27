@@ -718,10 +718,7 @@ async function submitForm(){
   btn.textContent = 'Submitting\u2026';
 
   try {
-    var apiBase = window.location.hostname === 'localhost'
-      ? 'http://localhost:8000'
-      : 'https://' + window.location.hostname.replace(/-00-/, '-8000-');
-    var res = await fetch(apiBase + '/api/submit-assessment', {
+    var res = await fetch('/api/submit-assessment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
