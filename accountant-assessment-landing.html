@@ -717,6 +717,7 @@ async function submitForm(){
   btn.disabled = true;
   btn.textContent = 'Submitting\u2026';
 
+  var emailOk = false;
   try {
     var res = await fetch('https://workspace.dapotejuoso.replit.app/api/submit-assessment', {
       method: 'POST',
@@ -724,12 +725,17 @@ async function submitForm(){
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
     });
     if(!res.ok) throw new Error('server');
+    emailOk = true;
   } catch(e) {
-    errorEl.textContent = 'There was a problem sending your details — but your booking slot is reserved. Redirecting you to Calendly now\u2026';
+    errorEl.textContent = 'There was a problem sending your details \u2014 but your booking slot is reserved. Redirecting you to Calendly now\u2026';
     errorEl.style.display = 'block';
   }
 
-  window.location.href = 'https://calendly.com/dapotejuoso/30min';
+  if(emailOk) {
+    window.location.href = 'https://calendly.com/dapotejuoso/30min';
+  } else {
+    setTimeout(function(){ window.location.href = 'https://calendly.com/dapotejuoso/30min'; }, 1500);
+  }
 }
 function toggleFaq(btn){
   var item=btn.parentElement;
