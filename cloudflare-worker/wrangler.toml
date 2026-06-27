@@ -1,0 +1,6 @@
+name = "yega-assessment"
+main = "index.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+# ZEPTOMAIL_API_KEY is set as a secret via: wrangler secret put ZEPTOMAIL_API_KEY
