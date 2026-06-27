@@ -45,7 +45,7 @@ app.post('/api/submit-assessment', async (req, res) => {
   try {
     await sendZeptoMail({
       from: { address: 'noreply@yegamedia.com', name: 'YEGA Assessment' },
-      to: [{ email_address: { address: 'dapotejuoso@gmail.com', name: 'Dapo' } }],
+      to: [{ email_address: { address: 'dapo@yegamedia.com', name: 'Dapo' } }],
       subject: `New Assessment Request — ${firstName} ${lastName} (${firmName || 'Unknown Firm'})`,
       htmlbody: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0A0A0A;color:#E5E5E5;padding:32px;border-radius:8px;">
