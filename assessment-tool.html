@@ -10,7 +10,7 @@
   --cyan:#00D9D9;--cyan-dk:#009999;--cyan-10:rgba(0,217,217,0.10);--cyan-20:rgba(0,217,217,0.20);
   --dark:#0A0A0A;--dark-2:#111111;--dark-3:#181818;--dark-4:#202020;--dark-5:#2A2A2A;
   --border:#2C2C2C;--border-s:#1E1E1E;
-  --white:#fff;--muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.28);--dim:rgba(255,255,255,0.10);
+  --white:#fff;--muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.50);--dim:rgba(255,255,255,0.10);
   --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
   --green:#00C48C;--amber:#F5A623;--red:#E8445A;
 }
@@ -55,7 +55,7 @@ body{background:var(--dark);color:var(--white);font-family:var(--body);font-size
 .field-hint{font-size:11px;color:var(--subtle);margin-bottom:10px;line-height:1.4}
 .field-input{background:var(--dark-4);border:1px solid var(--border);border-radius:5px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--white);width:100%;outline:none;transition:border-color .15s}
 .field-input:focus{border-color:var(--cyan)}
-.field-input::placeholder{color:rgba(255,255,255,.2)}
+.field-input::placeholder{color:rgba(255,255,255,.40)}
 .field-select{background:var(--dark-4);border:1px solid var(--border);border-radius:5px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--white);width:100%;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;transition:border-color .15s;cursor:pointer}
 .field-select:focus{border-color:var(--cyan);outline:none}
 .field-select option{background:#222}

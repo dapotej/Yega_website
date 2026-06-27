@@ -10,7 +10,7 @@
   --cyan:#00D9D9;--cyan-dk:#00AAAA;--cyan-10:rgba(0,217,217,0.10);
   --dark:#0A0A0A;--dark-2:#111111;--dark-3:#181818;--dark-4:#202020;
   --border:#2C2C2C;--border-s:#1E1E1E;
-  --muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.28);
+  --muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.50);
   --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
   --serif:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;--max:1100px
 }
@@ -32,7 +32,7 @@ body{background:var(--dark);color:#fff;font-family:var(--body);font-size:16px;li
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.04em}
 .form-input{background:var(--dark-4);border:1px solid var(--border);border-radius:4px;padding:11px 14px;font-family:var(--body);font-size:14px;color:#fff;outline:none;transition:border-color .15s;width:100%}
-.form-input::placeholder{color:rgba(255,255,255,.2)}
+.form-input::placeholder{color:rgba(255,255,255,.40)}
 .form-input:focus{border-color:var(--cyan)}
 .form-select{background:var(--dark-4);border:1px solid var(--border);border-radius:4px;padding:11px 14px;font-family:var(--body);font-size:14px;color:#fff;outline:none;width:100%;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .form-select:focus{border-color:var(--cyan);outline:none}
@@ -78,8 +78,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.9
 .trust-inner{display:flex;align-items:center}
 .trust-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--subtle);white-space:nowrap;padding-right:28px;border-right:1px solid var(--border)}
 .trust-logos{display:flex;align-items:center;gap:36px;padding-left:28px;flex-wrap:wrap}
-.trust-logo{opacity:.3;transition:opacity .2s;display:flex;align-items:center}
-.trust-logo:hover{opacity:.6}
+.trust-logo{opacity:.55;transition:opacity .2s;display:flex;align-items:center}
+.trust-logo:hover{opacity:.85}
 .trust-logo svg{height:18px;width:auto}
 
 /* PAIN — full width, two-col bullets */
@@ -109,10 +109,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.9
 .compare th:first-child{background:var(--dark-4);color:var(--subtle);border-right:1px solid var(--border);width:50%}
 .compare th:last-child{background:#0C1C1C;color:var(--cyan)}
 .compare td{padding:14px 18px;font-size:14px;line-height:1.45;border-top:1px solid var(--border);vertical-align:middle}
-.compare td:first-child{color:#555;border-right:1px solid var(--border);background:var(--dark-3)}
+.compare td:first-child{color:#999;border-right:1px solid var(--border);background:var(--dark-3)}
 .compare td:last-child{color:rgba(255,255,255,.85);background:#0A1616}
 .tick{color:var(--cyan);font-weight:700;margin-right:6px}
-.cross{color:#3A3A3A;margin-right:6px}
+.cross{color:#666;margin-right:6px}
 
 /* SNAPSHOT — health score full width, then 3 cards below */
 .snapshot{padding:88px 0;border-bottom:1px solid var(--border)}

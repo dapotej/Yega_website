@@ -10,7 +10,7 @@
   --cyan:#00D9D9;--cyan-dk:#009999;--cyan-10:rgba(0,217,217,0.10);--cyan-20:rgba(0,217,217,0.20);
   --dark:#0A0A0A;--dark-2:#111111;--dark-3:#181818;--dark-4:#202020;
   --border:#2C2C2C;--border-s:#1C1C1C;
-  --white:#fff;--muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.28);
+  --white:#fff;--muted:rgba(255,255,255,0.55);--subtle:rgba(255,255,255,0.50);
   --body:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",sans-serif;
   --max:1080px;
 }
@@ -65,10 +65,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.9
 .compare th:first-child{background:var(--dark-4);color:var(--subtle);border-right:1px solid var(--border);width:50%}
 .compare th:last-child{background:#0C1C1C;color:var(--cyan)}
 .compare td{padding:13px 16px;font-size:13px;line-height:1.4;border-top:1px solid var(--border);vertical-align:middle}
-.compare td:first-child{color:#555;border-right:1px solid var(--border);background:var(--dark-3)}
+.compare td:first-child{color:#999;border-right:1px solid var(--border);background:var(--dark-3)}
 .compare td:last-child{color:rgba(255,255,255,.85);background:#0A1616}
 .tick{color:var(--cyan);font-weight:700;margin-right:6px}
-.cross{color:#3A3A3A;margin-right:6px}
+.cross{color:#666;margin-right:6px}
 
 /* WHAT WE BUILD */
 .what{padding:96px 0;background:var(--dark-2);border-bottom:1px solid var(--border)}
@@ -176,8 +176,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.9
 .not-fit{background:var(--dark-3);border:1px solid var(--border);border-radius:8px;padding:20px 22px}
 .not-fit-label{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--subtle);margin-bottom:12px}
 .not-fit-list{list-style:none;display:flex;flex-direction:column;gap:6px}
-.not-fit-list li{font-size:13px;color:#555;display:flex;align-items:center;gap:8px}
-.not-fit-list li::before{content:"—";color:#333}
+.not-fit-list li{font-size:13px;color:#888;display:flex;align-items:center;gap:8px}
+.not-fit-list li::before{content:"—";color:#555}
 
 /* ABOUT */
 .about{padding:96px 0;background:var(--dark-2);border-bottom:1px solid var(--border)}
