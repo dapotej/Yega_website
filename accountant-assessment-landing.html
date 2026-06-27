@@ -354,7 +354,8 @@ footer{border-top:1px solid var(--border);padding:28px 0;background:var(--dark-2
                 </select>
               </div>
             </div>
-            <button class="btn" onclick="submitForm()">Book My Free Assessment &rarr;</button>
+            <button class="btn" id="submitBtn" onclick="submitForm()">Book My Free Assessment &rarr;</button>
+            <div id="formError" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;font-size:13px;color:#F87171;line-height:1.5;text-align:center;"></div>
             <div class="form-privacy">By submitting you agree to our <a href="#">Privacy Policy</a>. We will never share your data.</div>
           </div>
           <div class="form-success" id="mainSuccess">
@@ -703,25 +704,35 @@ async function submitForm(){
   var phone     = document.querySelector('input[data-field="phone"]').value.trim();
   var revenue   = document.querySelector('select[data-field="revenue"]').value;
 
+  var errorEl = document.getElementById('formError');
+  errorEl.style.display = 'none';
+
   if(!firstName || !lastName || !email){
-    alert("Please fill in your first name, last name and email.");
+    errorEl.textContent = 'Please fill in your first name, last name and email address.';
+    errorEl.style.display = 'block';
     return;
   }
 
-  var btn = document.querySelector('#mainForm .btn');
+  var btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = "Submitting…";
+  btn.textContent = 'Submitting\u2026';
 
   try {
-    var apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://' + window.location.hostname.replace(/-00-/, '-8000-');
+    var apiBase = window.location.hostname === 'localhost'
+      ? 'http://localhost:8000'
+      : 'https://' + window.location.hostname.replace(/-00-/, '-8000-');
     var res = await fetch(apiBase + '/api/submit-assessment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
     });
-    if(!res.ok) throw new Error('Server error');
+    if(!res.ok) throw new Error('server');
   } catch(e) {
-    console.warn('Email notification failed, proceeding anyway:', e);
+    btn.disabled = false;
+    btn.textContent = 'Book My Free Assessment \u2192';
+    errorEl.textContent = 'Something went wrong — please try again or email us directly at hello@yegasystems.com.';
+    errorEl.style.display = 'block';
+    return;
   }
 
   window.location.href = 'https://calendly.com/dapotejuoso/30min';
