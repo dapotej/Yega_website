@@ -339,15 +339,15 @@ footer{border-top:1px solid var(--border);padding:28px 0;background:var(--dark-2
           <div id="mainForm">
             <div class="form-fields">
               <div class="form-row">
-                <div class="form-group"><label class="form-label">First name</label><input type="text" class="form-input" placeholder="James"></div>
-                <div class="form-group"><label class="form-label">Last name</label><input type="text" class="form-input" placeholder="Wilson"></div>
+                <div class="form-group"><label class="form-label">First name</label><input type="text" class="form-input" data-field="firstName" placeholder="James"></div>
+                <div class="form-group"><label class="form-label">Last name</label><input type="text" class="form-input" data-field="lastName" placeholder="Wilson"></div>
               </div>
-              <div class="form-group"><label class="form-label">Firm name</label><input type="text" class="form-input" placeholder="Wilson &amp; Partners LLP"></div>
-              <div class="form-group"><label class="form-label">Work email</label><input type="email" class="form-input" placeholder="james@wilsonpartners.co.uk"></div>
-              <div class="form-group"><label class="form-label">Phone number</label><input type="tel" class="form-input" placeholder="+44 7700 000000"></div>
+              <div class="form-group"><label class="form-label">Firm name</label><input type="text" class="form-input" data-field="firmName" placeholder="Wilson &amp; Partners LLP"></div>
+              <div class="form-group"><label class="form-label">Work email</label><input type="email" class="form-input" data-field="email" placeholder="james@wilsonpartners.co.uk"></div>
+              <div class="form-group"><label class="form-label">Phone number</label><input type="tel" class="form-input" data-field="phone" placeholder="+44 7700 000000"></div>
               <div class="form-group">
                 <label class="form-label">Approximate annual revenue</label>
-                <select class="form-select">
+                <select class="form-select" data-field="revenue">
                   <option value="" disabled selected>Select range</option>
                   <option>Under &pound;500k</option><option>&pound;500k &ndash; &pound;1m</option>
                   <option>&pound;1m &ndash; &pound;3m</option><option>&pound;3m &ndash; &pound;10m</option><option>&pound;10m+</option>
@@ -713,7 +713,8 @@ async function submitForm(){
   btn.textContent = "Submitting…";
 
   try {
-    var res = await fetch('/api/submit-assessment', {
+    var apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://' + window.location.hostname.replace(/-00-/, '-8000-');
+    var res = await fetch(apiBase + '/api/submit-assessment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
