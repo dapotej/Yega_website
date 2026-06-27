@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { SendMailClient } = require('zeptomail');
+const https = require('https');
 
 const app = express();
 const PORT = 8000;
@@ -8,10 +8,32 @@ const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 
-const client = new SendMailClient({
-  url: 'api.zeptomail.com/',
-  token: process.env.ZEPTOMAIL_API_KEY
-});
+function sendZeptoMail(payload) {
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify(payload);
+    const options = {
+      hostname: 'api.zeptomail.com',
+      path: '/v1.1/email',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Zoho-enczapikey ' + process.env.ZEPTOMAIL_API_KEY,
+        'Content-Length': Buffer.byteLength(body)
+      }
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', d => data += d);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) resolve(JSON.parse(data));
+        else reject(new Error(`ZeptoMail ${res.statusCode}: ${data}`));
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
 
 app.post('/api/submit-assessment', async (req, res) => {
   const { firstName, lastName, firmName, email, phone, revenue } = req.body;
@@ -21,9 +43,8 @@ app.post('/api/submit-assessment', async (req, res) => {
   }
 
   try {
-    await client.sendMail({
-      bounce_address: 'dapotejuoso@gmail.com',
-      from: { address: process.env.ZEPTOMAIL_FROM_ADDRESS, name: 'YEGA Assessment' },
+    await sendZeptoMail({
+      from: { address: 'noreply@yegamedia.com', name: 'YEGA Assessment' },
       to: [{ email_address: { address: 'dapotejuoso@gmail.com', name: 'Dapo' } }],
       subject: `New Assessment Request — ${firstName} ${lastName} (${firmName || 'Unknown Firm'})`,
       htmlbody: `
@@ -63,10 +84,7 @@ app.post('/api/submit-assessment', async (req, res) => {
 
     return res.json({ success: true });
   } catch (err) {
-    console.error('ZeptoMail error:', JSON.stringify(err, null, 2));
-    if (err && err.error && err.error.details) {
-      console.error('Details:', JSON.stringify(err.error.details, null, 2));
-    }
+    console.error('ZeptoMail error:', err.message);
     return res.status(500).json({ error: 'Failed to send email' });
   }
 });
