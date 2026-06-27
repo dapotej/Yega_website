@@ -719,7 +719,7 @@ async function submitForm(){
 
   var emailOk = false;
   try {
-    var res = await fetch('https://workspace.dapotejuoso.replit.app/api/submit-assessment', {
+    var res = await fetch('https://yega-assessment.dapo-292.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ firstName, lastName, firmName, email, phone, revenue })
