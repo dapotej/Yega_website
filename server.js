@@ -23,7 +23,7 @@ app.post('/api/submit-assessment', async (req, res) => {
   try {
     await client.sendMail({
       bounce_address: 'dapotejuoso@gmail.com',
-      from: { address: 'noreply@yegasystems.com', name: 'YEGA Assessment' },
+      from: { address: process.env.ZEPTOMAIL_FROM_ADDRESS, name: 'YEGA Assessment' },
       to: [{ email_address: { address: 'dapotejuoso@gmail.com', name: 'Dapo' } }],
       subject: `New Assessment Request — ${firstName} ${lastName} (${firmName || 'Unknown Firm'})`,
       htmlbody: `
@@ -63,7 +63,10 @@ app.post('/api/submit-assessment', async (req, res) => {
 
     return res.json({ success: true });
   } catch (err) {
-    console.error('ZeptoMail error:', err);
+    console.error('ZeptoMail error:', JSON.stringify(err, null, 2));
+    if (err && err.error && err.error.details) {
+      console.error('Details:', JSON.stringify(err.error.details, null, 2));
+    }
     return res.status(500).json({ error: 'Failed to send email' });
   }
 });
